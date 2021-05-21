@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+
+    tools:context=".ContactUs">
+
+
+
+    <EditText
+        android:background="@drawable/round_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:ems="10"
+        android:padding="10dp"
+        android:hint="Dental_lesson@gmail.com"
+        android:enabled="false"
+        />
+
+    <EditText
+        android:id="@+id/conact_email_subject"
+        android:background="@drawable/round_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:ems="10"
+        android:padding="10dp"
+        android:hint="Subject"
+        />
+
+    <EditText
+        android:id="@+id/contact_email_message"
+        android:background="@drawable/round_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:ems="10"
+        android:padding="10dp"
+        android:hint="Message"
+        />
+
+    <Button
+        android:id="@+id/contact_send"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:background="@drawable/round_button"
+        android:shadowColor="@color/black"
+        android:text="Send"
+        />
+
+    <EditText
+        android:background="@drawable/round_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:ems="10"
+        android:enabled="false"
+        android:padding="10dp"
+        android:hint="+21624278211"
+        />
+
+    <Button
+        android:id="@+id/contact_call"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:background="@drawable/round_button"
+        android:shadowColor="@color/black"
+        android:text="Call"
+        />
+
+
+
+
+
+
+
+
+
+
+</LinearLayout>

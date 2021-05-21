@@ -82,8 +82,9 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:text="Forget Password"
-            android:textColor="#0170FF"
-            android:textSize="20dp" />
+            android:textColor="@color/orange"
+            android:textSize="20dp"
+            />
 
         <TextView
             android:id="@+id/main_sing_up"
@@ -91,7 +92,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:text="Sign Up"
-            android:textColor="#0170FF"
+            android:textColor="@color/orange"
             android:textSize="20dp"
 
 
