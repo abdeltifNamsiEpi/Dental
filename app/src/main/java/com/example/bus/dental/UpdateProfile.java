@@ -3,7 +3,9 @@ package com.example.bus.dental;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -22,10 +24,12 @@ import com.google.firebase.database.ValueEventListener;
 import static android.provider.SyncStateContract.Helpers.update;
 
 public class UpdateProfile extends AppCompatActivity {
+
+    String Name,Phone,Email,Password;
+    EditText updateName,updatePhone,updateEmail,updatePassword;
     private FirebaseUser firebaseUser;
     private DatabaseReference reference;
     private String userID;
-    EditText updateName,updatePhone,updateEmail,updatePassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,76 +41,145 @@ public class UpdateProfile extends AppCompatActivity {
         userID=firebaseUser.getUid();
 
 
-        updateName =(EditText)findViewById(R.id.profile_update_name);
-        updatePhone =(EditText)findViewById(R.id.profile_update_phone);
-        updateEmail =(EditText)findViewById(R.id.profile_update_email);
-        updatePassword =(EditText)findViewById(R.id.profile_update_password);
-        Button updateNow=(Button)findViewById(R.id.profile_update_now);
+        updateName =findViewById(R.id.profile_update_name);
+        updatePhone =findViewById(R.id.profile_update_phone);
+        updateEmail =findViewById(R.id.profile_update_email);
+        updatePassword =findViewById(R.id.profile_update_password);
+        Button updateNow=findViewById(R.id.profile_update_now);
 
-        reference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                User user=snapshot.getValue(User.class);
-                if(user!=null){
-                    updateName.setText(user.getName());
-                    updatePhone.setText(user.getPhone());
-                    updateEmail.setText(user.getEmail());
+        Intent intent= getIntent();
+        Name=intent.getStringExtra("name");
+        Phone=intent.getStringExtra("phone");
+        Email=intent.getStringExtra("email");
+        Password=intent.getStringExtra("password");
 
-                }
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(UpdateProfile.this,"Something wrong happened!!!",Toast.LENGTH_LONG).show();
-            }
-        });
+        updateName.setText(Name);
+        updatePhone.setText(Phone);
+        updateEmail.setText(Email);
 
 
         updateNow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(updateName.getText().toString().isEmpty() ){
-                    Toast.makeText(UpdateProfile.this,"Name is empty",Toast.LENGTH_SHORT).show();
-                }else if(updateEmail.getText().toString().isEmpty() ){
-                    Toast.makeText(UpdateProfile.this,"Email is empty",Toast.LENGTH_SHORT).show();
-                }else if (!Patterns.EMAIL_ADDRESS.matcher(updateEmail.getText().toString()).matches()){
-                    Toast.makeText(UpdateProfile.this,"Please provide valid Email",Toast.LENGTH_SHORT).show();
-                }
-                else if(updatePhone.length()<8){
-                    Toast.makeText(UpdateProfile.this,"phone should at leat have 8 numbers",Toast.LENGTH_SHORT).show();
-                }
-                /*else if(isNameChanged()||isPhoneChanged()||isEmailChanged()||isPasswordChanged()){
-                    Toast.makeText(UpdateProfile.this,"Data has been updated!!!",Toast.LENGTH_LONG).show();
-
-                }*/
-                else {
-                    Toast.makeText(UpdateProfile.this,"Error Occured!!!",Toast.LENGTH_LONG).show();
-                }
+                Log.d("aaa","gngchmv");
+                update(v);
             }
         });
+
+
+
+
     }
-    /*public void update(View view){
-        String _NAME= updateName.getText().toString();
+
+    public Boolean validateName(){
+        String val=updateName.getText().toString();
+        if (val.isEmpty()){
+            updateName.setError("Name is required");
+            updateName.requestFocus();
+            return false;
+        }
+        else{
+            updateName.setError(null);
+            return true;
+        }
+
+    }
+    public Boolean validatePhone(){
+        String val=updatePhone.getText().toString();
+
+        if(val.length()!=8){
+            updatePhone.setError("Phone should have 8 numbers");
+            updatePhone.requestFocus();
+            return false;
+        }
+        else{
+            updatePhone.setError(null);
+            return true;
+        }
+
+    }
+
+    public Boolean validateEmail(){
+        String val=updateEmail.getText().toString();
+        if (val.isEmpty()){
+            updateEmail.setError("Email is required");
+            updateEmail.requestFocus();
+            return false;
+        }
+        else if (!Patterns.EMAIL_ADDRESS.matcher(val).matches()){
+            updateEmail.setError("Please provide valid Email");
+            updateEmail.requestFocus();
+            return false;
+        }
+        else{
+            updateEmail.setError(null);
+            return true;
+        }
+
+    }
+
+    public Boolean validatePassword(){
+        String val=updatePassword.getText().toString();
+        if(val.isEmpty()){
+            updatePassword.setError("Password is required");
+            updatePassword.requestFocus();
+            return false;
+        }
+        else if(val.length()<6){
+            updatePassword.setError("Password should at least have 6 characters");
+            updatePassword.requestFocus();
+            return false;
+        }
+        else{
+            updatePassword.setError(null);
+            return true;
+        }
+
+    }
 
 
-        firebaseUser= FirebaseAuth.getInstance().getCurrentUser();
-        updateName.setText(user.getName());
-        UserProfileChangeRequest request=new UserProfileChangeRequest.Builder().setDisplayName();
-
+  public void update(View view){
+        if (isNameChanged() || isPhoneChanged() || isEmailChanged() || isPasswordChanged()){
+            Toast.makeText(this,"Data has been updated!!",Toast.LENGTH_LONG).show();
+        }else {
+            Toast.makeText(this,"Data has NOT been updated!!",Toast.LENGTH_LONG).show();
+        }
 
     }
 
     private boolean isPasswordChanged() {
-
+        if (!Password.equals(updatePassword.getText().toString())){
+            reference.child(userID).child("password").setValue(updatePassword.getText().toString());
+            return true;
+        }else {
+            return false;
+        }
     }
 
     private boolean isEmailChanged() {
+        if (!Email.equals(updateEmail.getText().toString())){
+            reference.child(userID).child("email").setValue(updateEmail.getText().toString());
+            return true;
+        }else {
+            return false;
+        }
     }
 
     private boolean isPhoneChanged() {
+        if (!Phone.equals(updatePhone.getText().toString())){
+            reference.child(userID).child("phone").setValue(updatePhone.getText().toString());
+            return true;
+        }else {
+            return false;
+        }
     }
 
     private boolean isNameChanged() {
-    }*/
+        if (!Name.equals(updateName.getText().toString())){
+            reference.child(userID).child("name").setValue(updateName.getText().toString());
+            return true;
+        }else {
+            return false;
+        }
+    }
 }

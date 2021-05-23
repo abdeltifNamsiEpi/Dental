@@ -37,17 +37,16 @@ public class Profile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-
-        firebaseUser= FirebaseAuth.getInstance().getCurrentUser();
-        reference= FirebaseDatabase.getInstance().getReference("Users");
-        userID=firebaseUser.getUid();
-
         greetingTextview=findViewById(R.id.profile_greeting);
         nameTextview=findViewById(R.id.profile_name);
         phoneTextview=findViewById(R.id.profile_phone);
         emailTextview=findViewById(R.id.profile_email);
         btnUpdateProfile=findViewById(R.id.profile_update);
 
+
+        firebaseUser= FirebaseAuth.getInstance().getCurrentUser();
+        reference= FirebaseDatabase.getInstance().getReference("Users");
+        userID=firebaseUser.getUid();
 
         reference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -58,10 +57,7 @@ public class Profile extends AppCompatActivity {
                     nameTextview.setText(user.getName());
                     phoneTextview.setText(user.getPhone());
                     emailTextview.setText(user.getEmail());
-                    /*String passwordTextview=snapshot.child()
 
-                    Intent intent=new Intent(getApplicationContext(),UpdateProfile.class);
-                    intent.putExtra("name",)*/
 
                 }
 
@@ -77,7 +73,33 @@ public class Profile extends AppCompatActivity {
         btnUpdateProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Profile.this,UpdateProfile.class));
+
+                firebaseUser= FirebaseAuth.getInstance().getCurrentUser();
+                reference= FirebaseDatabase.getInstance().getReference("Users");
+                userID=firebaseUser.getUid();
+
+                reference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        User user=snapshot.getValue(User.class);
+                        if(user!=null){
+
+                            Intent intent=new Intent(getApplicationContext(),UpdateProfile.class);
+                            intent.putExtra("name",user.getName());
+                            intent.putExtra("email",user.getEmail());
+                            intent.putExtra("phone",user.getPhone());
+                            intent.putExtra("password",user.getPassword());
+                            startActivity(intent);
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Toast.makeText(Profile.this,"Something wrong happened!!!",Toast.LENGTH_LONG).show();
+                    }
+                });
+
             }
         });
 

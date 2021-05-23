@@ -18,6 +18,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity {
     final String TAG="MainActivity";
@@ -56,34 +62,54 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                if (!validateEmail() || !validatePassword()){
+                    return;
+                }
+
                 String email=mainemailEdittext.getText().toString();
                 String password=mainpasswordEdittext.getText().toString();
-
-
-                if (email.isEmpty()){
-                    mainemailEdittext.setError("Email is required");
-                    mainemailEdittext.requestFocus();
-                    return;
-                }
-                if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-                    mainemailEdittext.setError("Please provide valid Email");
-                    mainemailEdittext.requestFocus();
-                    return;
-                }
-                if(password.isEmpty()){
-                    mainpasswordEdittext.setError("Password is required");
-                    mainpasswordEdittext.requestFocus();
-                    return;
-                }
-                if(password.length()<6){
-                    mainpasswordEdittext.setError("Password should at least have 6 characters");
-                    mainpasswordEdittext.requestFocus();
-                    return;
-                }
 
                 login(email,password);
             }
         });
+
+    }
+
+    public Boolean validateEmail(){
+        String val=mainemailEdittext.getText().toString();
+        if (val.isEmpty()){
+            mainemailEdittext.setError("Email is required");
+            mainemailEdittext.requestFocus();
+            return false;
+        }
+        else if (!Patterns.EMAIL_ADDRESS.matcher(val).matches()){
+            mainemailEdittext.setError("Please provide valid Email");
+            mainemailEdittext.requestFocus();
+            return false;
+        }
+        else{
+            mainemailEdittext.setError(null);
+            return true;
+        }
+
+    }
+
+    public Boolean validatePassword(){
+        String val=mainpasswordEdittext.getText().toString();
+        if(val.isEmpty()){
+            mainpasswordEdittext.setError("Password is required");
+            mainpasswordEdittext.requestFocus();
+            return false;
+        }
+        else if(val.length()<6){
+            mainpasswordEdittext.setError("Password should at least have 6 characters");
+            mainpasswordEdittext.requestFocus();
+            return false;
+        }
+        else{
+            mainpasswordEdittext.setError(null);
+            return true;
+        }
 
     }
 
@@ -101,7 +127,8 @@ public class MainActivity extends AppCompatActivity {
                             Intent i=new Intent(MainActivity.this,Home.class);
                             startActivity(i);
 
-                        }else{
+                        }
+                        else{
                             Log.d(TAG, "loginUserWithEmail:failed",task.getException());
                             Toast.makeText(MainActivity.this,"Authentication failed",Toast.LENGTH_SHORT).show();
 

@@ -49,49 +49,87 @@ public class SignUpActivity extends AppCompatActivity {
         });
     }
 
+    public Boolean validateName(){
+        String val=nameEdittext.getText().toString();
+        if (val.isEmpty()){
+            nameEdittext.setError("Name is required");
+            nameEdittext.requestFocus();
+            return false;
+        }
+        else{
+            nameEdittext.setError(null);
+            return true;
+        }
+
+    }
+    public Boolean validatePhone(){
+        String val=phoneEditText.getText().toString();
+
+        if(val.length()!=8){
+            phoneEditText.setError("Phone should have 8 numbers");
+            phoneEditText.requestFocus();
+            return false;
+        }
+        else{
+            phoneEditText.setError(null);
+            return true;
+        }
+
+    }
+
+    public Boolean validateEmail(){
+        String val=emailEdittext.getText().toString();
+        if (val.isEmpty()){
+            emailEdittext.setError("Email is required");
+            emailEdittext.requestFocus();
+            return false;
+        }
+        else if (!Patterns.EMAIL_ADDRESS.matcher(val).matches()){
+            emailEdittext.setError("Please provide valid Email");
+            emailEdittext.requestFocus();
+            return false;
+        }
+        else{
+            emailEdittext.setError(null);
+            return true;
+        }
+
+    }
+
+    public Boolean validatePassword(){
+        String val=passwordEdittext.getText().toString();
+        if(val.isEmpty()){
+            passwordEdittext.setError("Password is required");
+            passwordEdittext.requestFocus();
+            return false;
+        }
+        else if(val.length()<6){
+            passwordEdittext.setError("Password should at least have 6 characters");
+            passwordEdittext.requestFocus();
+            return false;
+        }
+        else{
+            passwordEdittext.setError(null);
+            return true;
+        }
+
+    }
+
+
+
+
 
     private void signUp() {
 
-        String email=emailEdittext.getText().toString();
-        String password=passwordEdittext.getText().toString();
+        if (!validateName() || !validatePhone() || !validateEmail() || !validatePassword() ){
+            return;
+        }
+
         String name=nameEdittext.getText().toString();
         String phone=phoneEditText.getText().toString();
+        String email=emailEdittext.getText().toString();
+        String password=passwordEdittext.getText().toString();
 
-        if (name.isEmpty()){
-            emailEdittext.setError("Name is required");
-            emailEdittext.requestFocus();
-            return;
-        }
-        if (phone.isEmpty()){
-            emailEdittext.setError("Phone is required");
-            emailEdittext.requestFocus();
-            return;
-        }
-        if(phone.length()<8){
-            passwordEdittext.setError("Phone should at least have 6 numbers");
-            passwordEdittext.requestFocus();
-            return;
-        }
-        if (email.isEmpty()){
-            emailEdittext.setError("Email is required");
-            emailEdittext.requestFocus();
-            return;
-        }
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-            emailEdittext.setError("Please provide valid Email");
-            emailEdittext.requestFocus();
-            return;
-        }
-        if(password.isEmpty()){
-            passwordEdittext.setError("Password is required");
-            passwordEdittext.requestFocus();
-            return;
-        }
-        if(password.length()<6){
-            passwordEdittext.setError("Password should at least have 6 characters");
-            passwordEdittext.requestFocus();
-            return;
-        }
 
 
         mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -121,5 +159,7 @@ public class SignUpActivity extends AppCompatActivity {
 
             }
         });
+
+        /**/
     }
 }
