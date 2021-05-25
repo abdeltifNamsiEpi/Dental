@@ -10,59 +10,134 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="10dp"
-        android:text="Update Profile" />
+        android:text="Update Profile"
+        />
 
-    <EditText
-        android:id="@+id/profile_update_name"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/round_edit_text"
-        android:gravity="center"
-        android:inputType="textPersonName"
-        android:padding="10dp" />
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:padding="10dp">
+        <EditText
+            android:id="@+id/profile_update_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/round_edit_text"
+            android:gravity="center"
+            android:inputType="textPersonName"
+            android:padding="10dp" />
 
-    <EditText
-        android:id="@+id/profile_update_phone"
+        <Button
+            android:id="@+id/profile_update_name_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:background="@drawable/round_button"
+            android:text="Update Name" />
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/round_edit_text"
-        android:gravity="center"
-        android:inputType="number"
-        android:padding="10dp" />
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:padding="10dp">
 
-    <EditText
-        android:id="@+id/profile_update_email"
+        <EditText
+            android:id="@+id/profile_update_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/round_edit_text"
+            android:gravity="center"
+            android:inputType="number"
+            android:padding="10dp" />
+        <Button
+            android:id="@+id/profile_update_phone_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:background="@drawable/round_button"
+            android:text="Update Phone" />
+    </LinearLayout>
+
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/round_edit_text"
-        android:gravity="center"
-        android:inputType="textEmailAddress"
-        android:padding="10dp" />
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:padding="10dp"
+        >
 
-    <EditText
-        android:id="@+id/profile_update_password"
+        <EditText
+            android:id="@+id/profile_update_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/round_edit_text"
+            android:gravity="center"
+            android:inputType="textEmailAddress"
+            android:padding="10dp" />
+        <Button
+            android:id="@+id/profile_update_email_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:background="@drawable/round_button"
+            android:text="Update Email" />
+    </LinearLayout>
+
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/round_edit_text"
-        android:gravity="center"
-        android:hint="Tap current password here!!"
-        android:inputType="textPassword"
-        android:padding="10dp" />
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:padding="10dp">
 
-    <Button
-        android:id="@+id/profile_update_now"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="50dp"
 
-        android:background="@drawable/round_button"
-        android:text="Update Now!!!" />
+        <EditText
+            android:id="@+id/profile_current_update_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/round_edit_text"
+            android:gravity="center"
+            android:hint="Tap current password here!!"
+            android:inputType="textPassword"
+            android:padding="10dp" />
+
+        <EditText
+            android:id="@+id/profile_update_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/round_edit_text"
+            android:gravity="center"
+            android:hint="Tap new password here!!"
+            android:inputType="textPassword"
+            android:padding="10dp" />
+        <Button
+            android:id="@+id/profile_update_password_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:background="@drawable/round_button"
+            android:text="Update Password" />
+    </LinearLayout>
+
+
+
+
+
+
 
 
 </LinearLayout>

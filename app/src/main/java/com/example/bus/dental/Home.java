@@ -58,6 +58,9 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
             case R.id.nav_contact_us:
                 startActivity(new Intent(Home.this, ContactUs.class));
                 break;
+            case R.id.nav_rate_us:
+                startActivity(new Intent(this,RateUs.class));
+                break;
             case R.id.nav_logout:
                 FirebaseAuth.getInstance().signOut();
                 startActivity(new Intent(Home.this, MainActivity.class));

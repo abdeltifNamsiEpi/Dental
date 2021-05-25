@@ -32,12 +32,13 @@ public class ContactUs extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String number="+21624278211";
-                Intent i=new Intent(Intent.ACTION_CALL_BUTTON);
-                i.setData(Uri.parse("tel:" + number));
-                if (ActivityCompat.checkSelfPermission(ContactUs.this, Manifest.permission.CALL_PHONE )!= PackageManager.PERMISSION_GRANTED){
-                    return;
+                Intent i=new Intent(Intent.ACTION_DIAL);
+                i.setData(Uri.parse("tel:" + "+21624278211"));
+                if(i.resolveActivity(getPackageManager()) !=null)
+                {
+                    startActivity(i);
                 }
-                startActivity(i);
+
             }
         });
 

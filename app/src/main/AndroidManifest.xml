@@ -3,7 +3,7 @@
     package="com.example.bus.dental">
 
     <uses-permission android:name="android.permission.CALL_PHONE" />
-    <uses-permission android:name="android.permission.CALL_PHONE" />
+
 
     <application
         android:allowBackup="true"
@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Dental">
-        <activity android:name=".UpdateProfile"></activity>
+        <activity android:name=".RateUs"></activity>
+        <activity android:name=".UpdateProfile" />
         <activity android:name=".ContactUs" />
         <activity android:name=".Profile" />
         <activity android:name=".MainActivity" />
