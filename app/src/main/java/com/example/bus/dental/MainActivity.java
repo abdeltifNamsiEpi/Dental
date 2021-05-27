@@ -26,7 +26,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity {
-    final String TAG="MainActivity";
+
     private TextView signUp,forgotPassword;
     private EditText mainemailEdittext, mainpasswordEdittext;
     private Button btn_login;
@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
 
                         }
                         else{
-                            Log.d(TAG, "loginUserWithEmail:failed",task.getException());
+
                             Toast.makeText(MainActivity.this,"Authentication failed",Toast.LENGTH_SHORT).show();
 
 

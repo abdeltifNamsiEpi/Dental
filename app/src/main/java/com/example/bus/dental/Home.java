@@ -51,23 +51,25 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.nav_home:
+
                 break;
             case R.id.nav_profile:
-                startActivity(new Intent(Home.this, Profile.class));
+                startActivity(new Intent(this, Profile.class));
                 break;
             case R.id.nav_contact_us:
-                startActivity(new Intent(Home.this, ContactUs.class));
+                startActivity(new Intent(this, ContactUs.class));
                 break;
             case R.id.nav_rate_us:
                 startActivity(new Intent(this,RateUs.class));
                 break;
             case R.id.nav_logout:
                 FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(Home.this, MainActivity.class));
+                startActivity(new Intent(this, MainActivity.class));
                 break;
         }
-
+        drawerLayout.closeDrawer(GravityCompat.START);
         return true;
+
     }
 
 

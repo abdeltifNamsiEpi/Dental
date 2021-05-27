@@ -24,7 +24,7 @@ public class SignUpActivity extends AppCompatActivity {
     EditText emailEdittext,passwordEdittext,nameEdittext,phoneEditText;
 
     private FirebaseAuth mAuth;
-    final String TAG="SignUpActivity";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
