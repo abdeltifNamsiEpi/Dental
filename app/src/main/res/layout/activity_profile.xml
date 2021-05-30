@@ -14,7 +14,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center_horizontal"
-    tools:context=".Profile">
+    tools:context=".activities.Profile">
 
     <TextView
         android:layout_width="match_parent"

@@ -8,84 +8,84 @@
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical"
-
-    tools:context=".ContactUs">
-
-
-    <EditText
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:background="@drawable/blue_border_rounded_cornwe"
-        android:ems="10"
-        android:enabled="false"
+        android:layout_height="match_parent"
         android:gravity="center"
-        android:hint="Dental_lesson@gmail.com"
+        android:orientation="vertical"
 
-        android:padding="10dp"
-        android:textStyle="bold" />
-
-    <EditText
-        android:id="@+id/conact_email_subject"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:background="@drawable/blue_border_rounded_cornwe"
-        android:ems="10"
-        android:gravity="center"
-        android:hint="Type Subject here!!"
-        android:padding="10dp" />
-
-    <EditText
-        android:id="@+id/contact_email_message"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:background="@drawable/blue_border_rounded_cornwe"
-        android:ems="10"
-        android:gravity="center"
-        android:hint="Type Message here!!"
-        android:padding="10dp" />
-
-    <Button
-        android:id="@+id/contact_send"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:background="@drawable/blue_fill__rounded_color"
-        android:shadowColor="@color/black"
-        android:text="Send" />
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:background="@drawable/blue_border_rounded_cornwe"
-        android:ems="10"
-        android:enabled="false"
-        android:gravity="center"
-        android:hint="+21624278211"
-        android:padding="10dp"
-        android:textStyle="bold" />
-
-    <Button
-        android:id="@+id/contact_call"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:background="@drawable/blue_fill__rounded_color"
-        android:shadowColor="@color/black"
-        android:text="Call" />
+        tools:context=".activities.ContactUs">
 
 
-</LinearLayout>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/blue_border_rounded_cornwe"
+            android:ems="10"
+            android:enabled="false"
+            android:gravity="center"
+            android:hint="Dental_lesson@gmail.com"
+            android:padding="10dp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/conact_email_subject"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/blue_border_rounded_cornwe"
+            android:ems="10"
+            android:gravity="center"
+            android:hint="Type Subject here!!"
+            android:padding="10dp" />
+
+        <EditText
+            android:id="@+id/contact_email_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/blue_border_rounded_cornwe"
+            android:ems="10"
+            android:gravity="center"
+            android:hint="Type Message here!!"
+            android:padding="10dp" />
+
+        <Button
+            android:id="@+id/contact_send"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:background="@drawable/blue_fill__rounded_color"
+            android:shadowColor="@color/black"
+            android:text="Send" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/blue_border_rounded_cornwe"
+            android:ems="10"
+            android:enabled="false"
+            android:gravity="center"
+            android:hint="+21624278211"
+            android:padding="10dp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/contact_call"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:background="@drawable/blue_fill__rounded_color"
+            android:shadowColor="@color/black"
+            android:text="Call" />
+
+
+    </LinearLayout>
+
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"

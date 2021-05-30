@@ -1,4 +1,4 @@
-package com.example.bus.dental;
+package com.example.bus.dental.models;
 
 public class User {
     private String name,phone,email,password;

@@ -1,9 +1,8 @@
 
-package com.example.bus.dental;
+package com.example.bus.dental.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -13,10 +12,11 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.bus.dental.R;
+import com.example.bus.dental.models.User;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -151,6 +151,9 @@ public class Profile extends AppCompatActivity implements NavigationView.OnNavig
                 break;
             case R.id.nav_rate_us:
                 startActivity(new Intent(this,RateUs.class));
+                break;
+            case R.id.nav_feedback:
+                startActivity(new Intent(this,Feedback.class));
                 break;
             case R.id.nav_logout:
                 FirebaseAuth.getInstance().signOut();

@@ -1,4 +1,4 @@
-package com.example.bus.dental;
+package com.example.bus.dental.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.Toast;
 
+import com.example.bus.dental.R;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -78,6 +79,9 @@ public class RateUs extends AppCompatActivity implements NavigationView.OnNaviga
                 startActivity(new Intent(this, ContactUs.class));
                 break;
             case R.id.nav_rate_us:
+                break;
+            case R.id.nav_feedback:
+                startActivity(new Intent(this,Feedback.class));
                 break;
             case R.id.nav_logout:
                 FirebaseAuth.getInstance().signOut();

@@ -4,7 +4,6 @@
 
     <uses-permission android:name="android.permission.CALL_PHONE" />
 
-
     <application
         android:allowBackup="true"
         android:icon="@drawable/tooth"
@@ -12,15 +11,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Dental">
-        <activity android:name=".RateUs"></activity>
-        <activity android:name=".UpdateProfile" />
-        <activity android:name=".ContactUs" />
-        <activity android:name=".Profile" />
-        <activity android:name=".MainActivity" />
-        <activity android:name=".ForgetPassword" />
-        <activity android:name=".Home" />
-        <activity android:name=".SignUpActivity" />
-        <activity android:name=".SplashScreen">
+        <activity android:name=".activities.Feedback"></activity>
+        <activity android:name=".activities.RateUs" />
+        <activity android:name=".activities.UpdateProfile" />
+        <activity android:name=".activities.ContactUs" />
+        <activity android:name=".activities.Profile" />
+        <activity android:name=".activities.MainActivity" />
+        <activity android:name=".activities.ForgetPassword" />
+        <activity android:name=".activities.Home" />
+        <activity android:name=".activities.SignUpActivity" />
+        <activity android:name=".activities.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -1,4 +1,4 @@
-package com.example.bus.dental;
+package com.example.bus.dental.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,9 +11,11 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.bus.dental.R;
+
 public class SplashScreen extends AppCompatActivity {
 
-    private static int SPLASH_SCREEN=4000;
+    private static int SPLASH_SCREEN=3000;
 
     Animation topAnim ,bottomAnim;
     ImageView imageView;
