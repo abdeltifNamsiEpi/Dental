@@ -34,7 +34,7 @@ public class Profile extends AppCompatActivity implements NavigationView.OnNavig
     private String userID;
 
     Button btnUpdateProfile;
-    TextView greetingTextview,nameTextview,emailTextview,phoneTextview;
+    TextView greetingTextview,nameTextview,lastnameTextview,emailTextview,phoneTextview;
 
 
 
@@ -55,6 +55,7 @@ public class Profile extends AppCompatActivity implements NavigationView.OnNavig
 
         greetingTextview=findViewById(R.id.profile_greeting);
         nameTextview=findViewById(R.id.profile_name);
+        lastnameTextview=findViewById(R.id.profile_lastname);
         phoneTextview=findViewById(R.id.profile_phone);
         emailTextview=findViewById(R.id.profile_email);
         btnUpdateProfile=findViewById(R.id.profile_update);
@@ -71,6 +72,7 @@ public class Profile extends AppCompatActivity implements NavigationView.OnNavig
                 if(user!=null){
                     greetingTextview.setText("Welcome to our app "+user.getName()+"!!");
                     nameTextview.setText(user.getName());
+                    lastnameTextview.setText(user.getLastName());
                     phoneTextview.setText(user.getPhone());
                     emailTextview.setText(user.getEmail());
 
@@ -102,7 +104,7 @@ public class Profile extends AppCompatActivity implements NavigationView.OnNavig
 
                             Intent intent=new Intent(getApplicationContext(),UpdateProfile.class);
                             intent.putExtra("name",user.getName());
-                            intent.putExtra("email",user.getEmail());
+                            intent.putExtra("lastname",user.getLastName());
                             intent.putExtra("phone",user.getPhone());
                             intent.putExtra("password",user.getPassword());
                             startActivity(intent);
@@ -157,7 +159,7 @@ public class Profile extends AppCompatActivity implements NavigationView.OnNavig
                 break;
             case R.id.nav_logout:
                 FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(this, MainActivity.class));
+                startActivity(new Intent(this, Login.class));
                 break;
         }
         drawerLayout.closeDrawer(GravityCompat.START);

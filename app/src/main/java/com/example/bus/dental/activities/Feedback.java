@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 
@@ -34,9 +35,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Feedback extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class Feedback extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,CommentClickInterface {
     EditText editTextFeedback;
-    Button btnAddFeedback;
+    ImageButton btnAddFeedback;
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
     FirebaseDatabase firebaseDatabase;
@@ -47,6 +48,7 @@ public class Feedback extends AppCompatActivity implements NavigationView.OnNavi
     static  String COMMENT="Comment";
     DrawerLayout drawerLayout;
     NavigationView navigationView;
+    String uid,id_comment;
 
 
 
@@ -56,6 +58,7 @@ public class Feedback extends AppCompatActivity implements NavigationView.OnNavi
         setContentView(R.layout.activity_feedback);
 
         RvComment=findViewById(R.id.comment_recyclerview);
+        RvComment.setLayoutManager(new LinearLayoutManager(this));
         editTextFeedback=findViewById(R.id.feedback_edit);
         btnAddFeedback=findViewById(R.id.feedback_btn);
         firebaseAuth=FirebaseAuth.getInstance();
@@ -65,6 +68,9 @@ public class Feedback extends AppCompatActivity implements NavigationView.OnNavi
 
         drawerLayout= findViewById(R.id.drawer_layout);
         navigationView=findViewById(R.id.nav_view);
+        uid=firebaseUser.getUid();
+        commentReference=firebaseDatabase.getReference(COMMENT);
+        id_comment=commentReference.push().getKey();
 
         navigationView.bringToFront();
         ActionBarDrawerToggle toggle= new ActionBarDrawerToggle(this,drawerLayout,R.string.open_navigation_drawer, R.string.close_navigation_drawer);
@@ -82,18 +88,27 @@ public class Feedback extends AppCompatActivity implements NavigationView.OnNavi
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         User user=snapshot.getValue(User.class);
                         if(user!=null){
-                            commentReference=firebaseDatabase.getReference(COMMENT);
+
 
                             String feedback=editTextFeedback.getText().toString();
-                            String uid=firebaseUser.getUid();
-                            String uname=user.getName();
-                            Comment comment = new Comment(feedback,uname,uid);
-                            commentReference.push().setValue(comment).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    Toast.makeText(Feedback.this,"Feedback added successfuly!!!",Toast.LENGTH_LONG).show();
-                                }
-                            });
+                            if (feedback.isEmpty()){
+                                Toast.makeText(Feedback.this,"Please provide a feedback",Toast.LENGTH_LONG).show();
+
+                            }else {
+
+                                String uname=user.getName();
+                                String ulastname=user.getLastName();
+                                Comment comment = new Comment(id_comment,feedback,uname,ulastname,uid);
+                                commentReference.push().setValue(comment).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Toast.makeText(Feedback.this,"Feedback added successfully!!!",Toast.LENGTH_LONG).show();
+                                        editTextFeedback.getText().clear();
+                                    }
+                                });
+
+                            }
+
 
                         }
                     }
@@ -142,7 +157,7 @@ public class Feedback extends AppCompatActivity implements NavigationView.OnNavi
                 break;
             case R.id.nav_logout:
                 FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(this, MainActivity.class));
+                startActivity(new Intent(this, Login.class));
                 break;
         }
         drawerLayout.closeDrawer(GravityCompat.START);
@@ -151,7 +166,8 @@ public class Feedback extends AppCompatActivity implements NavigationView.OnNavi
     }
 
     private void initRvComment() {
-        RvComment.setLayoutManager(new LinearLayoutManager(this));
+
+
 
         DatabaseReference commentRef=firebaseDatabase.getReference(COMMENT);
         commentRef.addValueEventListener(new ValueEventListener() {
@@ -162,7 +178,7 @@ public class Feedback extends AppCompatActivity implements NavigationView.OnNavi
                     Comment comment= snap.getValue(Comment.class);
                     listComment.add(comment);
                 }
-                commentAdapter= new CommentAdapter(getApplicationContext(),listComment);
+                commentAdapter= new CommentAdapter(getApplicationContext(),listComment,Feedback.this::onItemClick);
                 RvComment.setAdapter(commentAdapter);
 
             }
@@ -175,5 +191,14 @@ public class Feedback extends AppCompatActivity implements NavigationView.OnNavi
 
     }
 
+
+    @Override
+    public void onItemClick(int position) {
+            if ((commentReference.child(id_comment).child("uid").toString()).equals(firebaseUser.getUid())){
+                Toast.makeText(Feedback.this,"adssada",Toast.LENGTH_LONG).show();
+            }else {
+                Toast.makeText(Feedback.this,"xxxxxxx",Toast.LENGTH_LONG).show();
+            }
+    }
 
 }

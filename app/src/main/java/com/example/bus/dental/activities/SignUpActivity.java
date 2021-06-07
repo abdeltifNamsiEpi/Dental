@@ -21,7 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class SignUpActivity extends AppCompatActivity {
     Button sign_up;
-    EditText emailEdittext,passwordEdittext,nameEdittext,phoneEditText;
+    EditText lastNameEditText,emailEdittext,passwordEdittext,nameEdittext,phoneEditText;
 
     private FirebaseAuth mAuth;
 
@@ -32,7 +32,7 @@ public class SignUpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
         mAuth = FirebaseAuth.getInstance();
 
-
+        lastNameEditText=findViewById(R.id.signUp_last_name);
         passwordEdittext=(EditText)findViewById(R.id.signUp_password);
         emailEdittext=(EditText)findViewById(R.id.signUp_email);
         phoneEditText=(EditText)findViewById(R.id.signUp_phone);
@@ -58,6 +58,19 @@ public class SignUpActivity extends AppCompatActivity {
         }
         else{
             nameEdittext.setError(null);
+            return true;
+        }
+
+    }
+    public Boolean validateLastName(){
+        String val=lastNameEditText.getText().toString();
+        if (val.isEmpty()){
+            lastNameEditText.setError("Last name is required");
+            lastNameEditText.requestFocus();
+            return false;
+        }
+        else{
+            lastNameEditText.setError(null);
             return true;
         }
 
@@ -121,11 +134,12 @@ public class SignUpActivity extends AppCompatActivity {
 
     private void signUp() {
 
-        if (!validateName() || !validatePhone() || !validateEmail() || !validatePassword() ){
+        if (!validateName() || !validateLastName() || !validatePhone() || !validateEmail() || !validatePassword() ){
             return;
         }
 
         String name=nameEdittext.getText().toString();
+        String lastname=lastNameEditText.getText().toString();
         String phone=phoneEditText.getText().toString();
         String email=emailEdittext.getText().toString();
         String password=passwordEdittext.getText().toString();
@@ -136,7 +150,7 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()){
-                    User user=new User(name,phone,email,password);
+                    User user=new User(name,lastname,phone,email,password);
 
                     FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                             .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {

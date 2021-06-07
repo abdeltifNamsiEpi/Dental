@@ -85,7 +85,7 @@ public class RateUs extends AppCompatActivity implements NavigationView.OnNaviga
                 break;
             case R.id.nav_logout:
                 FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(this, MainActivity.class));
+                startActivity(new Intent(this, Login.class));
                 break;
         }
         drawerLayout.closeDrawer(GravityCompat.START);

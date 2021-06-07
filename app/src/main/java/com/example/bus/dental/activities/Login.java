@@ -19,7 +19,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class MainActivity extends AppCompatActivity {
+public class Login extends AppCompatActivity {
 
     private TextView signUp,forgotPassword;
     private EditText mainemailEdittext, mainpasswordEdittext;
@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_login);
         mAuth = FirebaseAuth.getInstance();
         signUp=(TextView)findViewById(R.id.main_sing_up);
         mainemailEdittext=(EditText)findViewById(R.id.main_email);
@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         forgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this,ForgetPassword.class));
+                startActivity(new Intent(Login.this,ForgetPassword.class));
             }
         });
 
@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i=new Intent(MainActivity.this,SignUpActivity.class);
+                Intent i=new Intent(Login.this,SignUpActivity.class);
                 startActivity(i);
             }
         });
@@ -117,14 +117,14 @@ public class MainActivity extends AppCompatActivity {
                         if (task.isSuccessful()){
 
                             FirebaseUser user = mAuth.getCurrentUser();
-                            Toast.makeText(MainActivity.this,"Authentication Success "+user.getEmail()+" !!",Toast.LENGTH_SHORT).show();
-                            Intent i=new Intent(MainActivity.this,Home.class);
+                            Toast.makeText(Login.this,"Authentication Success "+user.getEmail()+" !!",Toast.LENGTH_SHORT).show();
+                            Intent i=new Intent(Login.this,Home.class);
                             startActivity(i);
 
                         }
                         else{
 
-                            Toast.makeText(MainActivity.this,"Wrong email or password!!",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Login.this,"Wrong email or password!!",Toast.LENGTH_SHORT).show();
 
 
                         }

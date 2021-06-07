@@ -28,9 +28,9 @@ import com.google.firebase.database.FirebaseDatabase;
 public class UpdateProfile extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     DrawerLayout drawerLayout;
     NavigationView navigationView;
-    String Name,Phone,Email,Password;
-    Button updateEmailBtn,updatePhoneBtn,updateNameBtn,updatePasswordBtn;
-    EditText updateName,updatePhone,updateEmail,updatePassword,currentPassword;
+    String Name,LastName,Phone,Password;
+    Button updateBtn;
+    EditText updateLastname,updateName,updatePhone,updatePassword,currentPassword;
     private FirebaseUser firebaseUser;
     private DatabaseReference reference;
     private String userID;
@@ -58,52 +58,22 @@ public class UpdateProfile extends AppCompatActivity implements NavigationView.O
 
 
         updateName =findViewById(R.id.profile_update_name);
+        updateLastname=findViewById(R.id.profile_update_lastname);
         updatePhone =findViewById(R.id.profile_update_phone);
-        updateEmail =findViewById(R.id.profile_update_email);
         updatePassword =findViewById(R.id.profile_update_password);
         currentPassword=findViewById(R.id.profile_current_update_password);
-        updateNameBtn=findViewById(R.id.profile_update_name_btn);
-        updatePhoneBtn=findViewById(R.id.profile_update_phone_btn);
-        updateEmailBtn=findViewById(R.id.profile_update_email_btn);
-        updatePasswordBtn=findViewById(R.id.profile_update_password_btn);
+        updateBtn=findViewById(R.id.profile_update_btn);
 
         Intent intent= getIntent();
         Name=intent.getStringExtra("name");
+        LastName=intent.getStringExtra("lastname");
         Phone=intent.getStringExtra("phone");
-        Email=intent.getStringExtra("email");
         Password=intent.getStringExtra("password");
 
         updateName.setText(Name);
+        updateLastname.setText(LastName);
         updatePhone.setText(Phone);
-        updateEmail.setText(Email);
 
-        updateNameBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                isNameChanged();
-            }
-        });
-
-        updatePhoneBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                isPhoneChanged();
-            }
-        });
-
-        updateEmailBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                isEmailChanged();
-            }
-        });
-
-        updatePasswordBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                isPasswordChanged();
-            }
-        });
 
 
 
@@ -124,12 +94,11 @@ public class UpdateProfile extends AppCompatActivity implements NavigationView.O
       String oldPassword=currentPassword.getText().toString();
       String newName=updateName.getText().toString();
       String newPhone=updatePhone.getText().toString();
-      String newemail=updateEmail.getText().toString();
 
 
-      if (newName.isEmpty() && newPhone.isEmpty() && newemail.isEmpty() && oldPassword.isEmpty()){
+      if (newName.isEmpty() && newPhone.isEmpty() && oldPassword.isEmpty()){
           Toast.makeText(UpdateProfile.this, "there's no data to update", Toast.LENGTH_SHORT).show();
-      }else if (newName.equals(Name)&&newPhone.equals(Phone)&&newemail.equals(Email)){
+      }else if (newName.equals(Name)&&newPhone.equals(Phone)){
 
               isPasswordChanged();
 
@@ -137,7 +106,6 @@ public class UpdateProfile extends AppCompatActivity implements NavigationView.O
       }else {
           isNameChanged();
           isPhoneChanged();
-          isEmailChanged();
           isPasswordChanged();
           Intent intent1 = new Intent(UpdateProfile.this, Home.class);
           startActivity(intent1);
@@ -197,42 +165,6 @@ public class UpdateProfile extends AppCompatActivity implements NavigationView.O
 
     }
 
-    private void isEmailChanged() {
-        String email=updateEmail.getText().toString();
-        if (email.isEmpty()){
-            updateEmail.setError("Email is required");
-            updateEmail.requestFocus();
-
-        }
-        else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-            updateEmail.setError("Please provide a valid Email");
-            updateEmail.requestFocus();}
-        else if (!Email.equals(email)){
-            firebaseUser.updateEmail(email)
-                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()) {
-                                reference.child(userID).child("email").setValue(email);
-                                Toast.makeText(UpdateProfile.this,"email is changed",Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(UpdateProfile.this,Profile.class));
-                            }
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(UpdateProfile.this,"something wrong happened",Toast.LENGTH_SHORT).show();
-                }
-            });
-        }else if(Email.equals(email)){
-            Toast.makeText(UpdateProfile.this,"It's the same Email",Toast.LENGTH_SHORT).show();
-        }
-        else {
-            Toast.makeText(UpdateProfile.this,"ERROR",Toast.LENGTH_SHORT).show();
-        }
-
-
-    }
 
     private void isPhoneChanged() {
         String newPhone=updatePhone.getText().toString();
@@ -308,7 +240,7 @@ public class UpdateProfile extends AppCompatActivity implements NavigationView.O
                 break;
             case R.id.nav_logout:
                 FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(this, MainActivity.class));
+                startActivity(new Intent(this, Login.class));
                 break;
         }
         drawerLayout.closeDrawer(GravityCompat.START);

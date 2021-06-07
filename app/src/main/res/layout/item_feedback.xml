@@ -1,37 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    app:cardCornerRadius="6dp"
+    app:cardElevation="5dp">
 
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="6dp">
 
 
         <TextView
             android:id="@+id/item_uname"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="casual"
             android:text="user Name"
+            android:layout_marginRight="2dp"
+            android:textColor="@color/blue"
             android:textSize="24sp"
-            android:textStyle="bold|italic"/>
+            android:textStyle="bold|italic" />
         <TextView
-            android:layout_width="match_parent"
+            android:id="@+id/item_ulastname"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/item_uname"
-            android:text="10:40"
-            android:textSize="15sp"
-            android:id="@+id/item_date"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="comment"
-            android:textSize="18sp"
-            android:id="@+id/item_comment"
-            android:layout_below="@id/item_date"/>
+            android:fontFamily="casual"
+            android:text="user Name"
+            android:layout_toRightOf="@id/item_uname"
+            android:textColor="@color/blue"
+            android:textSize="24sp"
+            android:textStyle="bold|italic" />
 
+        <TextView
+            android:id="@+id/item_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="230dp"
+            android:layout_toRightOf="@id/item_uname"
+            android:text="10:40"
+            android:textSize="12sp"
+            android:layout_marginLeft="200dp" />
+
+        <TextView
+            android:id="@+id/item_comment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/item_date"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="20dp"
+            android:text="comment"
+            android:textSize="18sp" />
 
 
     </RelativeLayout>

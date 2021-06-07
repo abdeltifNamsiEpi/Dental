@@ -1,16 +1,17 @@
 package com.example.bus.dental.models;
 
 public class User {
-    private String name,phone,email,password;
+    private String name,lastName,phone,email,password;
 
     public User() {
     }
 
-    public User(String name, String phone, String email, String password) {
+    public User(String name, String lastName, String phone, String email, String password) {
         this.name = name;
+        this.lastName = lastName;
         this.phone = phone;
         this.email = email;
-        this.password=password;
+        this.password = password;
     }
 
     public String getName() {
@@ -19,6 +20,14 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getPhone() {

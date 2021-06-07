@@ -105,7 +105,7 @@ public class ContactUs extends AppCompatActivity implements NavigationView.OnNav
                 break;
             case R.id.nav_logout:
                 FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(this, MainActivity.class));
+                startActivity(new Intent(this, Login.class));
                 break;
         }
         drawerLayout.closeDrawer(GravityCompat.START);

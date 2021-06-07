@@ -16,7 +16,7 @@
         <activity android:name=".activities.UpdateProfile" />
         <activity android:name=".activities.ContactUs" />
         <activity android:name=".activities.Profile" />
-        <activity android:name=".activities.MainActivity" />
+        <activity android:name=".activities.Login" />
         <activity android:name=".activities.ForgetPassword" />
         <activity android:name=".activities.Home" />
         <activity android:name=".activities.SignUpActivity" />
