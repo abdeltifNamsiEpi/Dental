@@ -3,15 +3,15 @@ package com.example.bus.dental.models;
 import com.google.firebase.database.ServerValue;
 
 public class Comment {
-    private String idComment,comment,uname,ulastname,uid;
+    private String comment,uname,ulastname,uid;
     private Object timestamp;
 
 
     public Comment() {
     }
 
-    public Comment(String idComment,String comment, String uname,String ulastname, String uid) {
-        this.idComment=idComment;
+    public Comment(String comment, String uname,String ulastname, String uid) {
+
         this.comment = comment;
         this.uname = uname;
         this.ulastname=ulastname;
@@ -19,13 +19,6 @@ public class Comment {
         this.timestamp = ServerValue.TIMESTAMP;
     }
 
-    public String getIdComment() {
-        return idComment;
-    }
-
-    public void setIdComment(String idComment) {
-        this.idComment = idComment;
-    }
 
     public Object getTimestamp() {
         return timestamp;

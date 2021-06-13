@@ -9,20 +9,31 @@
     tools:context=".activities.Home"
     tools:openDrawer="start">
 
-
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="k.j,hmdmfcgvjhb">
+            android:id="@+id/ccccccccc"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_alignParentTop="true"
+            android:gravity="center"
+            android:textSize="24sp"
+            android:background="@color/teal_700"
+            android:textColor="@color/white"
+            android:text="SUBJECTS"
+            android:layout_marginBottom="20dp"/>
 
-        </TextView>
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_below="@id/ccccccccc"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:id="@+id/subject_recycler_view"
+            />
 
 
-    </LinearLayout>
+    </RelativeLayout>
+
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
@@ -32,6 +43,5 @@
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/menu_header"
         app:menu="@menu/main_menu" />
-
 
 </androidx.drawerlayout.widget.DrawerLayout>

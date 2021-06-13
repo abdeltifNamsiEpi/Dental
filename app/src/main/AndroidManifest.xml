@@ -11,14 +11,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Dental">
-        <activity android:name=".activities.Feedback"></activity>
+        <activity android:name=".activities.LessonActivity"></activity>
+        <activity android:name=".activities.LessonsListActivity" />
+        <activity android:name=".activities.Feedback" />
         <activity android:name=".activities.RateUs" />
         <activity android:name=".activities.UpdateProfile" />
         <activity android:name=".activities.ContactUs" />
         <activity android:name=".activities.Profile" />
         <activity android:name=".activities.Login" />
         <activity android:name=".activities.ForgetPassword" />
-        <activity android:name=".activities.Home" />
+        <activity android:name=".activities.Home" ></activity>
         <activity android:name=".activities.SignUpActivity" />
         <activity android:name=".activities.SplashScreen">
             <intent-filter>
@@ -28,9 +30,6 @@
             </intent-filter>
         </activity>
 
-        <meta-data
-            android:name="preloaded_fonts"
-            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

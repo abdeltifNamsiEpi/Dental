@@ -8,96 +8,73 @@
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
 
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal">
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <TextView
+            android:id="@+id/aaa"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="Update Profile"
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="30dp"
-                android:gravity="center"
-                android:padding="10dp"
-                android:text="Update Profile"
-
-                android:textSize="24sp"
-                android:textStyle="bold|italic" />
+            android:textSize="24sp"
+            android:textStyle="bold|italic" />
 
 
-            <EditText
-                android:id="@+id/profile_update_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:background="@drawable/blue_border_rounded_cornwe"
-                android:gravity="center"
-                android:inputType="textPersonName"
-                android:padding="10dp" />
+        <EditText
+            android:id="@+id/profile_update_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/aaa"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/blue_border_rounded_cornwe"
+            android:gravity="center"
+            android:inputType="textPersonName"
+            android:padding="10dp" />
 
-            <EditText
-                android:id="@+id/profile_update_lastname"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:background="@drawable/blue_border_rounded_cornwe"
-                android:gravity="center"
-                android:inputType="textPersonName"
-                android:padding="10dp" />
-
-
-            <EditText
-                android:id="@+id/profile_update_phone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:background="@drawable/blue_border_rounded_cornwe"
-                android:gravity="center"
-                android:inputType="number"
-                android:padding="10dp" />
+        <EditText
+            android:id="@+id/profile_update_lastname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/profile_update_name"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/blue_border_rounded_cornwe"
+            android:gravity="center"
+            android:inputType="textPersonName"
+            android:padding="10dp" />
 
 
+        <EditText
+            android:id="@+id/profile_update_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/profile_update_lastname"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/blue_border_rounded_cornwe"
+            android:gravity="center"
+            android:inputType="number"
+            android:padding="10dp" />
 
-            <EditText
-                android:id="@+id/profile_current_update_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/blue_border_rounded_cornwe"
-                android:gravity="center"
-                android:hint="Tap current password here!!"
-                android:inputType="textPassword"
-                android:padding="10dp" />
-
-            <EditText
-                android:id="@+id/profile_update_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/blue_border_rounded_cornwe"
-                android:gravity="center"
-                android:hint="Tap new password here!!"
-                android:inputType="textPassword"
-                android:padding="10dp" />
-
-            <Button
-                android:id="@+id/profile_update_btn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"
-                android:layout_marginRight="50dp"
-                android:background="@drawable/blue_fill__rounded_color"
-                android:text="Update Password" />
+        <Button
+            android:id="@+id/profile_update_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/profile_update_phone"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/blue_fill__rounded_color"
+            android:text="Update" />
 
 
-        </LinearLayout>
-
-    </ScrollView>
+    </RelativeLayout>
 
 
     <com.google.android.material.navigation.NavigationView
@@ -108,6 +85,5 @@
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/menu_header"
         app:menu="@menu/main_menu" />
-
 </androidx.drawerlayout.widget.DrawerLayout>
 

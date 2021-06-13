@@ -3,6 +3,7 @@ package com.example.bus.dental.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -33,7 +34,7 @@ public class Profile extends AppCompatActivity implements NavigationView.OnNavig
     private DatabaseReference reference;
     private String userID;
 
-    Button btnUpdateProfile;
+    Button btnUpdateProfile,updatePasswordBtn;
     TextView greetingTextview,nameTextview,lastnameTextview,emailTextview,phoneTextview;
 
 
@@ -52,6 +53,16 @@ public class Profile extends AppCompatActivity implements NavigationView.OnNavig
         toggle.syncState();
 
         navigationView.setNavigationItemSelectedListener(this);
+
+        updatePasswordBtn=findViewById(R.id.update_password_btn);
+
+        updatePasswordBtn.setOnClickListener(v -> {
+            AlertDialog.Builder builder=new AlertDialog.Builder(Profile.this);
+            View mView=getLayoutInflater().inflate(R.layout.fragment_reset_password,null);
+            builder.setView(mView);
+            AlertDialog alertDialog=builder.create();
+            alertDialog.show();
+        });
 
         greetingTextview=findViewById(R.id.profile_greeting);
         nameTextview=findViewById(R.id.profile_name);

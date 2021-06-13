@@ -1,5 +1,5 @@
 package com.example.bus.dental.activities;
 
-public interface CommentClickInterface {
+public interface ItemClickInterface {
     void onItemClick(int position);
 }

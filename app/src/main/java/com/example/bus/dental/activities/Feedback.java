@@ -12,9 +12,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 
@@ -35,16 +35,16 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Feedback extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,CommentClickInterface {
+public class Feedback extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, ItemClickInterface {
     EditText editTextFeedback;
-    ImageButton btnAddFeedback;
+    ImageView btnAddFeedback;
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference userReference,commentReference;
     RecyclerView RvComment;
     CommentAdapter commentAdapter;
-    List<Comment> listComment;
+    List<Comment> listComment= new ArrayList<>();
     static  String COMMENT="Comment";
     DrawerLayout drawerLayout;
     NavigationView navigationView;
@@ -59,6 +59,9 @@ public class Feedback extends AppCompatActivity implements NavigationView.OnNavi
 
         RvComment=findViewById(R.id.comment_recyclerview);
         RvComment.setLayoutManager(new LinearLayoutManager(this));
+        commentAdapter= new CommentAdapter(getApplicationContext(),listComment,Feedback.this::onItemClick);
+        RvComment.setAdapter(commentAdapter);
+
         editTextFeedback=findViewById(R.id.feedback_edit);
         btnAddFeedback=findViewById(R.id.feedback_btn);
         firebaseAuth=FirebaseAuth.getInstance();
@@ -70,7 +73,6 @@ public class Feedback extends AppCompatActivity implements NavigationView.OnNavi
         navigationView=findViewById(R.id.nav_view);
         uid=firebaseUser.getUid();
         commentReference=firebaseDatabase.getReference(COMMENT);
-        id_comment=commentReference.push().getKey();
 
         navigationView.bringToFront();
         ActionBarDrawerToggle toggle= new ActionBarDrawerToggle(this,drawerLayout,R.string.open_navigation_drawer, R.string.close_navigation_drawer);
@@ -98,7 +100,7 @@ public class Feedback extends AppCompatActivity implements NavigationView.OnNavi
 
                                 String uname=user.getName();
                                 String ulastname=user.getLastName();
-                                Comment comment = new Comment(id_comment,feedback,uname,ulastname,uid);
+                                Comment comment = new Comment(feedback,uname,ulastname,uid);
                                 commentReference.push().setValue(comment).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
@@ -173,13 +175,12 @@ public class Feedback extends AppCompatActivity implements NavigationView.OnNavi
         commentRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                listComment=new ArrayList<>();
+                listComment.clear();
                 for(DataSnapshot snap:snapshot.getChildren()){
                     Comment comment= snap.getValue(Comment.class);
                     listComment.add(comment);
                 }
-                commentAdapter= new CommentAdapter(getApplicationContext(),listComment,Feedback.this::onItemClick);
-                RvComment.setAdapter(commentAdapter);
+                commentAdapter.notifyDataSetChanged();
 
             }
 
@@ -194,11 +195,10 @@ public class Feedback extends AppCompatActivity implements NavigationView.OnNavi
 
     @Override
     public void onItemClick(int position) {
-            if ((commentReference.child(id_comment).child("uid").toString()).equals(firebaseUser.getUid())){
+
                 Toast.makeText(Feedback.this,"adssada",Toast.LENGTH_LONG).show();
-            }else {
-                Toast.makeText(Feedback.this,"xxxxxxx",Toast.LENGTH_LONG).show();
-            }
+
+
     }
 
 }

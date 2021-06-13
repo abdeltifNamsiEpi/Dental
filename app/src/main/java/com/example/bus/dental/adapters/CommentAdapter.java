@@ -10,7 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.bus.dental.activities.CommentClickInterface;
+import com.example.bus.dental.activities.ItemClickInterface;
 import com.example.bus.dental.R;
 import com.example.bus.dental.models.Comment;
 
@@ -20,14 +20,14 @@ import java.util.Locale;
 
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentViewHolder> {
     private Context mContext;
-    private CommentClickInterface commentClickInterface;
+    private ItemClickInterface itemClickInterface;
 
     private List<Comment> mData;
 
-    public CommentAdapter(Context mContext, List<Comment> mData,CommentClickInterface commentClickInterface) {
+    public CommentAdapter(Context mContext, List<Comment> mData, ItemClickInterface itemClickInterface) {
         this.mContext = mContext;
         this.mData = mData;
-        this.commentClickInterface=commentClickInterface;
+        this.itemClickInterface = itemClickInterface;
 
     }
 
@@ -44,6 +44,12 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         holder.tv_lastname.setText(mData.get(position).getUlastname());
         holder.tv_comment.setText(mData.get(position).getComment());
         holder.tv_date.setText(timestampToString((Long)mData.get(position).getTimestamp()));
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                itemClickInterface.onItemClick(position);
+            }
+        });
     }
 
     @Override
@@ -60,12 +66,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             tv_date=itemView.findViewById(R.id.item_date);
             tv_comment=itemView.findViewById(R.id.item_comment);
             tv_lastname=itemView.findViewById(R.id.item_ulastname);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    commentClickInterface.onItemClick(getAdapterPosition());
-                }
-            });
+
 
         }
     }
