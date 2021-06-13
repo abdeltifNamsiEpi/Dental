@@ -16,4 +16,9 @@ public interface APIInterface {
 
     @GET("/subject/{id}")
     Call<Subject> getSubjectById(@Path("id") int id);
+
+    @GET("/lesson/content/{id}")
+    Call<Lesson> getLessonById(@Path("id") int id);
+
+
 }

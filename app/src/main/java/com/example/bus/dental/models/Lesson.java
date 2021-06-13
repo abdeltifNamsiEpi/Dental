@@ -2,6 +2,8 @@ package com.example.bus.dental.models;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+
 public class Lesson {
     @SerializedName("id")
     private int id;
@@ -9,6 +11,9 @@ public class Lesson {
     private int idSubject;
     @SerializedName("lessonTitle")
     private String lessonTitle;
+    @SerializedName("blocs")
+    private ArrayList<Bloc> blocs;
+
 
     public Lesson(int id, int idSubject, String lessonTitle) {
         this.id = id;
