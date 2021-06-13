@@ -1,8 +1,13 @@
 package com.example.bus.dental.models;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Lesson {
+    @SerializedName("id")
     private int id;
+    @SerializedName("subjectId")
     private int idSubject;
+    @SerializedName("lessonTitle")
     private String lessonTitle;
 
     public Lesson(int id, int idSubject, String lessonTitle) {

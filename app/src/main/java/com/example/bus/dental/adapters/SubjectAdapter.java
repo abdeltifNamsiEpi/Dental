@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bus.dental.R;
-import com.example.bus.dental.activities.ItemClickInterface;
+import com.example.bus.dental.interfaces.ItemClickInterface;
 import com.example.bus.dental.models.Subject;
 
 import java.util.List;

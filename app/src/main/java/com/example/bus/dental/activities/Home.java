@@ -10,16 +10,24 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.example.bus.dental.R;
 import com.example.bus.dental.adapters.SubjectAdapter;
+import com.example.bus.dental.interfaces.APIInterface;
+import com.example.bus.dental.interfaces.ItemClickInterface;
 import com.example.bus.dental.models.Subject;
+import com.example.bus.dental.utilities.APIClient;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Home extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, ItemClickInterface {
     DrawerLayout drawerLayout;
@@ -27,17 +35,39 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     RecyclerView subjectRecyclerview;
     SubjectAdapter subjectAdapter;
     List<Subject> listSubject = new ArrayList<>();
+    APIInterface apiInterface;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        apiInterface = APIClient.getClient().create(APIInterface.class);
+        Call<List<Subject>> call = apiInterface.getSubjects();
+        call.enqueue(new Callback<List<Subject>>() {
 
-        listSubject.add(new Subject(1, "Immunologie"));
-        listSubject.add(new Subject(1, "Microbiologie"));
-        listSubject.add(new Subject(1, "Histologie"));
-        listSubject.add(new Subject(1, "Radiologie"));
+            @Override
+            public void onResponse(Call<List<Subject>> call, Response<List<Subject>> response) {
+                Log.e("TAG",response.body()+"");
+                List<Subject> list=response.body();
+                listSubject.clear();
+                listSubject.addAll(list);
+                subjectAdapter.notifyDataSetChanged();
+
+
+            }
+
+            @Override
+            public void onFailure(Call<List<Subject>> call, Throwable t) {
+                Log.e("fqqq",t.toString());
+
+            }
+        });
+
+
+
+
 
         subjectRecyclerview = findViewById(R.id.subject_recycler_view);
         subjectRecyclerview.setLayoutManager(new GridLayoutManager(this, 2));

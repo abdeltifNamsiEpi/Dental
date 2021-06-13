@@ -8,50 +8,48 @@
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
         tools:context=".activities.Feedback">
 
-        <EditText
-            android:id="@+id/feedback_edit"
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/comment_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/ffffff"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+
+        <RelativeLayout
+            android:id="@+id/ffffff"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/blue_border_rounded_cornwe"
-            android:ems="10"
-            android:gravity="center"
-            android:hint="Type Feedback here!!"
-            android:padding="10dp" />
+            android:layout_alignParentBottom="true">
 
-        <Button
-            android:id="@+id/feedback_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="50dp"
-            android:layout_marginBottom="40dp"
-            android:background="@drawable/blue_fill__rounded_color"
-            android:text="Add feedback" />
-
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/comment_recyclerview"
+            <EditText
+                android:id="@+id/feedback_edit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
-        </ScrollView>
+                android:background="@drawable/blue_border_rounded_cornwe"
+                android:ems="10"
+                android:hint="Type Feedback here!!"
+                android:padding="10dp" />
+
+            <ImageView
+                android:id="@+id/feedback_btn"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/ic_action_name" />
+
+        </RelativeLayout>
 
 
-    </LinearLayout>
+    </RelativeLayout>
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"

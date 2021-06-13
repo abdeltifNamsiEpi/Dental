@@ -18,7 +18,7 @@ public class LessonActivity extends AppCompatActivity {
         setContentView(R.layout.activity_lesson);
 
         lessonTitle = getIntent().getStringExtra("lesson_title");
-        lessonTitleTV=findViewById(R.id.lesson_title_content);
+        lessonTitleTV = findViewById(R.id.lesson_title_content);
         lessonTitleTV.setText(lessonTitle);
 
 

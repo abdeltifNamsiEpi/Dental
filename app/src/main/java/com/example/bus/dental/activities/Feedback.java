@@ -13,13 +13,13 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 
 import com.example.bus.dental.R;
 import com.example.bus.dental.adapters.CommentAdapter;
+import com.example.bus.dental.interfaces.ItemClickInterface;
 import com.example.bus.dental.models.Comment;
 import com.example.bus.dental.models.User;
 import com.google.android.gms.tasks.OnSuccessListener;

@@ -8,83 +8,29 @@
     android:fitsSystemWindows="true"
     tools:context=".activities.Home"
     tools:openDrawer="start">
-<ScrollView android:layout_height="match_parent"
-    android:layout_width="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android" >
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".activities.LessonActivity">
 
-
-    <TextView
-        android:id="@+id/lesson_title_content"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_alignParentTop="true"
-        android:background="@color/teal_700"
-        android:gravity="center"
-        android:text="Lesson TITLE"
-        android:textColor="@color/white"
-        android:textSize="24sp" />
-
-    <TextView
-        android:id="@+id/title_edit_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/lesson_title_content"
-        android:text="Cortex thymique: Lymphocytes T immatures  ++++"
-        android:textColor="@color/blue"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:textSize="24sp" />
+        android:layout_height="match_parent"
+        tools:context=".activities.LessonActivity">
 
 
-    <TextView
-        android:id="@+id/paragraph_edit_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/title_edit_text"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:text="Quelques macrophages:
--Élimination des lymphocytes
-qui sont capables de reconnaître les antigènes du
- « SOI » et de réagir contre eux.
-"
-        android:textColor="@color/black"
-        android:textSize="24sp" />
+        <TextView
+            android:id="@+id/lesson_title_content"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_alignParentTop="true"
+            android:background="@color/teal_700"
+            android:gravity="center"
+            android:text="Lesson TITLE"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
 
-    <ImageView
-        android:id="@+id/image1"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_below="@id/paragraph_edit_text"
-        android:padding="10dp"
-        android:src="@drawable/cortexthymique" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/lesson_content_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/lesson_title_content" />
 
-    <TextView
-        android:id="@+id/legend"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/image1"
-        android:gravity="center"
-        android:text="Figure : Cortex thymique"
-        android:textColor="@color/black" />
-
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_below="@id/legend"
-        android:padding="10dp"
-        android:src="@drawable/picture1" />
-
-
-</RelativeLayout>
-</ScrollView>
+    </RelativeLayout>
 </androidx.drawerlayout.widget.DrawerLayout>
