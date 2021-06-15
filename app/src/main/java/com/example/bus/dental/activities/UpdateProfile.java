@@ -18,6 +18,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.bus.dental.R;
+import com.example.bus.dental.utilities.ConfirmationDialog;
+import com.example.bus.dental.utilities.MySession;
+import com.example.bus.dental.utilities.UpdatePassword;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -31,16 +34,18 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class UpdateProfile extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class UpdateProfile extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, ConfirmationDialog.ConfirmUpdate {
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     String Name, LastName, Phone, Password;
-    Button updateBtn, confirm_update;
+    Button updateBtn, resetPassword;
     EditText updateLastname, updateName, updatePhone, updatePassword, currentPassword, confirm_password;
-    private FirebaseUser firebaseUser;
-    private DatabaseReference reference;
-    private String userID;
     FirebaseAuth mAuth;
+    MySession mySession;
+    private FirebaseUser firebaseUser;
+    private DatabaseReference usersreference,ratingsreference,commentreference;
+    private String userID;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +54,8 @@ public class UpdateProfile extends AppCompatActivity implements NavigationView.O
 
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
-
+        mySession = new MySession(getApplicationContext());
+        final String x = mySession.getUid();
         navigationView.bringToFront();
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open_navigation_drawer, R.string.close_navigation_drawer);
         drawerLayout.addDrawerListener(toggle);
@@ -59,17 +65,19 @@ public class UpdateProfile extends AppCompatActivity implements NavigationView.O
 
         mAuth = FirebaseAuth.getInstance();
         firebaseUser = mAuth.getCurrentUser();
-        reference = FirebaseDatabase.getInstance().getReference("Users");
+        usersreference = FirebaseDatabase.getInstance().getReference("Users");
+        ratingsreference = FirebaseDatabase.getInstance().getReference("Ratings");
+
         userID = firebaseUser.getUid();
 
 
         updateName = findViewById(R.id.profile_update_name);
         updateLastname = findViewById(R.id.profile_update_lastname);
         updatePhone = findViewById(R.id.profile_update_phone);
-        updatePassword = findViewById(R.id.profile_new_update_password);
-        currentPassword = findViewById(R.id.profile_current_update_password);
+        resetPassword=findViewById(R.id.update_password_btn);
+
         confirm_password = findViewById(R.id.profile_confirmation_password);
-        confirm_update = findViewById(R.id.profile_confirmation_password_btn);
+
         updateBtn = findViewById(R.id.profile_update_btn);
 
         Intent intent = getIntent();
@@ -82,14 +90,13 @@ public class UpdateProfile extends AppCompatActivity implements NavigationView.O
         updateLastname.setText(LastName);
         updatePhone.setText(Phone);
 
-        String newName = updateName.getText().toString();
-        String newLastName = updateLastname.getText().toString();
-        String newPhone = updatePhone.getText().toString();
 
         updateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                String newName = updateName.getText().toString();
+                String newLastName = updateLastname.getText().toString();
+                String newPhone = updatePhone.getText().toString();
 
                 if (newName.isEmpty()) {
                     updateName.setError("Name is required");
@@ -105,52 +112,30 @@ public class UpdateProfile extends AppCompatActivity implements NavigationView.O
                 } else if (newName.equals(Name) && newLastName.equals(LastName) && newPhone.equals(Phone)) {
                     Toast.makeText(UpdateProfile.this, "It's the same data", Toast.LENGTH_LONG).show();
                 } else {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(UpdateProfile.this);
-                    View mView = getLayoutInflater().inflate(R.layout.fragment_confirm_password, null);
-                    builder.setView(mView);
-                    AlertDialog alertDialog = builder.create();
-                    alertDialog.show();
-                    confirm_update.setOnClickListener(new View.OnClickListener() {
+
+
+                    updateBtn.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            confirmUpdate(v);
+                            ConfirmationDialog x = new ConfirmationDialog();
+                            x.show(getSupportFragmentManager(), "ConfirmationDialog");
+
                         }
+
+
                     });
+
+
                 }
 
             }
         });
 
 
+
+
     }
 
-
-    public void confirmUpdate(View view) {
-        String confirmPassword = confirm_password.getText().toString();
-        String newName = updateName.getText().toString();
-        String newLastName = updateLastname.getText().toString();
-        String newPhone = updatePhone.getText().toString();
-
-
-        if (confirmPassword.equals(Password)) {
-            if (!Name.equals(newName)) {
-                reference.child(userID).child("name").setValue(updateName.getText().toString());
-
-            } else if (!LastName.equals(newLastName)) {
-                reference.child(userID).child("lastName").setValue(updateLastname.getText().toString());
-
-            }
-            else if (!Phone.equals(newPhone)) {
-                reference.child(userID).child("phone").setValue(updatePhone.getText().toString());
-            }
-            Toast.makeText(UpdateProfile.this,"Data changed successfully", Toast.LENGTH_LONG).show();
-            startActivity(new Intent(UpdateProfile.this, Profile.class));
-
-        }else {
-            Toast.makeText(UpdateProfile.this,"Wrong password", Toast.LENGTH_LONG).show();
-        }
-
-    }
 
     private void isPasswordChanged() {
         String newPassword = updatePassword.getText().toString();
@@ -170,7 +155,7 @@ public class UpdateProfile extends AppCompatActivity implements NavigationView.O
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
-                                        reference.child(userID).child("password").setValue(newPassword);
+                                        usersreference.child(userID).child("password").setValue(newPassword);
                                         Toast.makeText(UpdateProfile.this, "password is changed", Toast.LENGTH_SHORT).show();
                                         startActivity(new Intent(UpdateProfile.this, Profile.class));
 
@@ -202,65 +187,6 @@ public class UpdateProfile extends AppCompatActivity implements NavigationView.O
     }
 
 
-    private void isPhoneChanged() {
-
-
-        String newPhone = updatePhone.getText().toString();
-        if (newPhone.length() != 8) {
-            updatePhone.setError("Phone should have 8 numbers");
-            updatePhone.requestFocus();
-
-        } else if (!Phone.equals(newPhone)) {
-            reference.child(userID).child("phone").setValue(updatePhone.getText().toString());
-            startActivity(new Intent(UpdateProfile.this, Profile.class));
-
-        } else if (Phone.equals(newPhone)) {
-            Toast.makeText(UpdateProfile.this, "It's the same Phone number", Toast.LENGTH_SHORT).show();
-
-        } else {
-            Toast.makeText(UpdateProfile.this, "ERROR", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private void isNameChanged() {
-        String newName = updateName.getText().toString();
-        if (newName.isEmpty()) {
-            updateName.setError("Name is required");
-            updateName.requestFocus();
-
-        }
-        if (Name.equals(newName)) {
-            Toast.makeText(UpdateProfile.this, "It's the same Name", Toast.LENGTH_SHORT).show();
-        } else if (!Name.equals(newName)) {
-            reference.child(userID).child("name").setValue(updateName.getText().toString());
-            Toast.makeText(UpdateProfile.this, "Email is changed!!!", Toast.LENGTH_SHORT).show();
-
-            startActivity(new Intent(UpdateProfile.this, Profile.class));
-
-        } else {
-            Toast.makeText(UpdateProfile.this, "ERROR", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private void isLastNameChanged() {
-        String newLastName = updateLastname.getText().toString();
-        if (newLastName.isEmpty()) {
-            updateLastname.setError("Last Name is required");
-            updateLastname.requestFocus();
-
-        } else if (LastName.equals(newLastName)) {
-            Toast.makeText(UpdateProfile.this, "It's the same Last Name", Toast.LENGTH_SHORT).show();
-        } else if (!LastName.equals(newLastName)) {
-            reference.child(userID).child("lastName").setValue(updateLastname.getText().toString());
-            Toast.makeText(UpdateProfile.this, "LastName is changed!!!", Toast.LENGTH_SHORT).show();
-
-            startActivity(new Intent(UpdateProfile.this, Profile.class));
-
-        } else {
-            Toast.makeText(UpdateProfile.this, "ERROR", Toast.LENGTH_SHORT).show();
-        }
-    }
-
     @Override
     public void onBackPressed() {
 
@@ -278,25 +204,65 @@ public class UpdateProfile extends AppCompatActivity implements NavigationView.O
         switch (item.getItemId()) {
             case R.id.nav_home:
                 startActivity(new Intent(this, Home.class));
+
                 break;
             case R.id.nav_profile:
                 startActivity(new Intent(this, Profile.class));
+
                 break;
             case R.id.nav_contact_us:
                 startActivity(new Intent(this, ContactUs.class));
+
                 break;
             case R.id.nav_rate_us:
                 startActivity(new Intent(this, RateUs.class));
+
                 break;
             case R.id.nav_feedback:
                 startActivity(new Intent(this, Feedback.class));
+
                 break;
             case R.id.nav_logout:
                 FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(this, Login.class));
+                mySession.logout();
+                Intent i=new Intent(this, Login.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+                startActivity(i);
+
                 break;
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void Update(String Name, String LastName, String Phone) {
+        String newName = updateName.getText().toString();
+        String newLastName = updateLastname.getText().toString();
+        String newPhone = updatePhone.getText().toString();
+
+        if (!Name.equals(newName)) {
+            usersreference.child(userID).child("name").setValue(updateName.getText().toString());
+            ratingsreference.child(userID).child("uName").setValue(updateName.getText().toString());
+
+
+        }
+        if (!LastName.equals(newLastName)) {
+            usersreference.child(userID).child("lastName").setValue(updateLastname.getText().toString());
+            ratingsreference.child(userID).child("uLastName").setValue(updateName.getText().toString());
+
+
+        }
+        if (!Phone.equals(newPhone)) {
+            usersreference.child(userID).child("phone").setValue(updatePhone.getText().toString());
+        }
+
+        Toast.makeText(UpdateProfile.this, "Data changed successfully", Toast.LENGTH_LONG).show();
+        Intent i = new Intent(UpdateProfile.this, Profile.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+        startActivity(i);
+
     }
 }

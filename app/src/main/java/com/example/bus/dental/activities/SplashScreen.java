@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.bus.dental.R;
+import com.example.bus.dental.utilities.MySession;
 
 public class SplashScreen extends AppCompatActivity {
 
@@ -20,6 +21,7 @@ public class SplashScreen extends AppCompatActivity {
     Animation topAnim ,bottomAnim;
     ImageView imageView;
     TextView textView;
+    MySession mySession;
 
 
     @Override
@@ -27,6 +29,8 @@ public class SplashScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash_screen);
+        mySession = new MySession(getApplicationContext());
+
 
 
         topAnim= AnimationUtils.loadAnimation(this,R.anim.top_animation);
@@ -39,11 +43,21 @@ public class SplashScreen extends AppCompatActivity {
         textView.setAnimation(bottomAnim);
 
 
+
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(SplashScreen.this, Home.class));
-                finish();
+                if (mySession.logged()){
+                    Intent intent= new Intent(SplashScreen.this,Home.class);
+                    startActivity(intent);
+                    finish();
+                }
+                else{
+                    startActivity(new Intent(SplashScreen.this, Login.class));
+                    finish();
+                }
+
             }
         },SPLASH_SCREEN);
 

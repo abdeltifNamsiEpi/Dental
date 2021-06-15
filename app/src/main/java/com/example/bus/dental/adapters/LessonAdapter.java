@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.bus.dental.R;
 import com.example.bus.dental.models.Bloc;
 
@@ -45,14 +46,16 @@ public class LessonAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             case 1:
                 TitleViewHolder titleViewHolder = (TitleViewHolder) holder;
                 titleViewHolder.titleContent.setText(blocs.get(position).getTitleContent());
+                break;
             case 2:
                 ParagraphViewHolder paragraphViewHolder = (ParagraphViewHolder) holder;
                 paragraphViewHolder.paragraphContent.setText(blocs.get(position).getParagraphContent());
+                break;
             case 3:
                 ImageViewHolder imageViewHolder = (ImageViewHolder) holder;
                 imageViewHolder.imageLegend.setText(blocs.get(position).getLegend());
-                
-
+                Glide.with(mContext).load(blocs.get(position).getUrl()).into(imageViewHolder.imageContent);
+                break;
         }
     }
 

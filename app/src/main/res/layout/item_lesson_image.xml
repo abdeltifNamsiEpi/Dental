@@ -6,6 +6,7 @@
     <ImageView
         android:id="@+id/item_image_url"
         android:layout_width="match_parent"
+        android:src="@drawable/tooth"
         android:layout_height="wrap_content" />
 
     <TextView

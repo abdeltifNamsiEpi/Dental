@@ -160,6 +160,7 @@ public class SignUpActivity extends AppCompatActivity {
                                 Toast.makeText(SignUpActivity.this,"User has been signed up Successfully!!! "+user.getEmail(),Toast.LENGTH_SHORT).show();
                                 Intent i=new Intent(SignUpActivity.this,Home.class);
                                 startActivity(i);
+                                finish();
                             }
                             else {
                                 Toast.makeText(SignUpActivity.this,"Failed to Sign Up!!! Try again!",Toast.LENGTH_SHORT).show();

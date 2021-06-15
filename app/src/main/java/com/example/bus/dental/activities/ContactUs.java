@@ -9,49 +9,53 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.bus.dental.R;
+import com.example.bus.dental.utilities.MySession;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class ContactUs extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class ContactUs extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     DrawerLayout drawerLayout;
     NavigationView navigationView;
-    EditText contact_subject,contact_message;
-    Button call,send;
+    EditText contact_subject, contact_message;
+    Button call, send;
+    MySession mySession;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_us);
 
-        drawerLayout= findViewById(R.id.drawer_layout);
-        navigationView=findViewById(R.id.nav_view);
+        drawerLayout = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.nav_view);
+        mySession = new MySession(getApplicationContext());
+        final String x = mySession.getUid();
 
         navigationView.bringToFront();
-        ActionBarDrawerToggle toggle= new ActionBarDrawerToggle(this,drawerLayout,R.string.open_navigation_drawer, R.string.close_navigation_drawer);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open_navigation_drawer, R.string.close_navigation_drawer);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
         navigationView.setNavigationItemSelectedListener(this);
 
-        contact_subject =findViewById(R.id.conact_email_subject);
-        contact_message=findViewById(R.id.contact_email_message);
-        call=findViewById(R.id.contact_call);
-        send=findViewById(R.id.contact_send);
+        contact_subject = findViewById(R.id.conact_email_subject);
+        contact_message = findViewById(R.id.contact_email_message);
+        call = findViewById(R.id.contact_call);
+        send = findViewById(R.id.contact_send);
 
         call.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String number="+21624278211";
-                Intent i=new Intent(Intent.ACTION_DIAL);
+                String number = "+21624278211";
+                Intent i = new Intent(Intent.ACTION_DIAL);
                 i.setData(Uri.parse("tel:" + "+21624278211"));
-                if(i.resolveActivity(getPackageManager()) !=null)
-                {
+                if (i.resolveActivity(getPackageManager()) != null) {
                     startActivity(i);
                 }
 
@@ -59,16 +63,17 @@ public class ContactUs extends AppCompatActivity implements NavigationView.OnNav
         });
 
         send.setOnClickListener(new View.OnClickListener() {
-            String email="Dental_lesson@gmail.com";
+            String email = "Dental_lesson@gmail.com";
+
             @Override
             public void onClick(View v) {
-                Intent intent= new Intent(Intent.ACTION_SENDTO);
-                    intent.setData(Uri.parse("mailto:"+email));
-                    intent.putExtra(Intent.EXTRA_SUBJECT,contact_subject.getText().toString());
-                    intent.putExtra(Intent.EXTRA_TEXT,contact_message.getText().toString());
+                Intent intent = new Intent(Intent.ACTION_SENDTO);
+                intent.setData(Uri.parse("mailto:" + email));
+                intent.putExtra(Intent.EXTRA_SUBJECT, contact_subject.getText().toString());
+                intent.putExtra(Intent.EXTRA_TEXT, contact_message.getText().toString());
 
-                    startActivity(intent);
-                }
+                startActivity(intent);
+            }
 
         });
     }
@@ -76,10 +81,9 @@ public class ContactUs extends AppCompatActivity implements NavigationView.OnNav
     @Override
     public void onBackPressed() {
 
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)){
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
-        }
-        else {
+        } else {
             super.onBackPressed();
         }
 
@@ -88,24 +92,35 @@ public class ContactUs extends AppCompatActivity implements NavigationView.OnNav
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.nav_home:
                 startActivity(new Intent(this, Home.class));
+
                 break;
             case R.id.nav_profile:
                 startActivity(new Intent(this, Profile.class));
+
                 break;
             case R.id.nav_contact_us:
                 break;
             case R.id.nav_rate_us:
-                startActivity(new Intent(this,RateUs.class));
+                startActivity(new Intent(this, RateUs.class));
+
                 break;
             case R.id.nav_feedback:
-                startActivity(new Intent(this,Feedback.class));
+                startActivity(new Intent(this, Feedback.class));
+
                 break;
             case R.id.nav_logout:
                 FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(this, Login.class));
+
+
+                mySession.logout();
+                Intent i = new Intent(this, Login.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+                startActivity(i);
+
                 break;
         }
         drawerLayout.closeDrawer(GravityCompat.START);

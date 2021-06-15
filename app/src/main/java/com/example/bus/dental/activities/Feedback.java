@@ -22,6 +22,7 @@ import com.example.bus.dental.adapters.CommentAdapter;
 import com.example.bus.dental.interfaces.ItemClickInterface;
 import com.example.bus.dental.models.Comment;
 import com.example.bus.dental.models.User;
+import com.example.bus.dental.utilities.MySession;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -48,7 +49,8 @@ public class Feedback extends AppCompatActivity implements NavigationView.OnNavi
     static  String COMMENT="Comment";
     DrawerLayout drawerLayout;
     NavigationView navigationView;
-    String uid,id_comment;
+    String uid;
+    MySession mySession;
 
 
 
@@ -61,6 +63,8 @@ public class Feedback extends AppCompatActivity implements NavigationView.OnNavi
         RvComment.setLayoutManager(new LinearLayoutManager(this));
         commentAdapter= new CommentAdapter(getApplicationContext(),listComment,Feedback.this::onItemClick);
         RvComment.setAdapter(commentAdapter);
+        mySession = new MySession(getApplicationContext());
+        final String x = mySession.getUid();
 
         editTextFeedback=findViewById(R.id.feedback_edit);
         btnAddFeedback=findViewById(R.id.feedback_btn);
@@ -144,22 +148,30 @@ public class Feedback extends AppCompatActivity implements NavigationView.OnNavi
         switch (item.getItemId()){
             case R.id.nav_home:
                 startActivity(new Intent(this,Home.class));
+
                 break;
             case R.id.nav_profile:
                 startActivity(new Intent(this, Profile.class));
+
                 break;
             case R.id.nav_contact_us:
                 startActivity(new Intent(this, ContactUs.class));
+
                 break;
             case R.id.nav_rate_us:
                 startActivity(new Intent(this,RateUs.class));
+
                 break;
             case R.id.nav_feedback:
 
                 break;
             case R.id.nav_logout:
                 FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(this, Login.class));
+                mySession.logout();
+                Intent i=new Intent(this, Login.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+                startActivity(i);
                 break;
         }
         drawerLayout.closeDrawer(GravityCompat.START);
@@ -196,7 +208,12 @@ public class Feedback extends AppCompatActivity implements NavigationView.OnNavi
     @Override
     public void onItemClick(int position) {
 
-                Toast.makeText(Feedback.this,"adssada",Toast.LENGTH_LONG).show();
+                if(listComment.get(position).getUid().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                    Toast.makeText(this,"aaa",Toast.LENGTH_LONG).show();
+                }
+                else {
+
+                }
 
 
     }

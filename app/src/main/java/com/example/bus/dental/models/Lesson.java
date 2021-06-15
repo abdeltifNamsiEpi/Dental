@@ -15,10 +15,11 @@ public class Lesson {
     private ArrayList<Bloc> blocs;
 
 
-    public Lesson(int id, int idSubject, String lessonTitle) {
+    public Lesson(int id, int idSubject, String lessonTitle, ArrayList<Bloc> blocs) {
         this.id = id;
         this.idSubject = idSubject;
         this.lessonTitle = lessonTitle;
+        this.blocs = blocs;
     }
 
     public int getId() {
@@ -45,5 +46,11 @@ public class Lesson {
         this.lessonTitle = lessonTitle;
     }
 
+    public ArrayList<Bloc> getBlocs() {
+        return blocs;
+    }
 
+    public void setBlocs(ArrayList<Bloc> blocs) {
+        this.blocs = blocs;
+    }
 }

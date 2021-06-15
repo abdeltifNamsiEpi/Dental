@@ -18,6 +18,8 @@ import android.widget.Toast;
 
 import com.example.bus.dental.R;
 import com.example.bus.dental.models.User;
+import com.example.bus.dental.utilities.MySession;
+import com.example.bus.dental.utilities.UpdatePassword;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -36,6 +38,7 @@ public class Profile extends AppCompatActivity implements NavigationView.OnNavig
 
     Button btnUpdateProfile,updatePasswordBtn;
     TextView greetingTextview,nameTextview,lastnameTextview,emailTextview,phoneTextview;
+    MySession mySession;
 
 
 
@@ -46,6 +49,8 @@ public class Profile extends AppCompatActivity implements NavigationView.OnNavig
 
         drawerLayout= findViewById(R.id.drawer_layout);
         navigationView=findViewById(R.id.nav_view);
+        mySession = new MySession(getApplicationContext());
+        final String x = mySession.getUid();
 
         navigationView.bringToFront();
         ActionBarDrawerToggle toggle= new ActionBarDrawerToggle(this,drawerLayout,R.string.open_navigation_drawer, R.string.close_navigation_drawer);
@@ -56,13 +61,15 @@ public class Profile extends AppCompatActivity implements NavigationView.OnNavig
 
         updatePasswordBtn=findViewById(R.id.update_password_btn);
 
-        updatePasswordBtn.setOnClickListener(v -> {
-            AlertDialog.Builder builder=new AlertDialog.Builder(Profile.this);
-            View mView=getLayoutInflater().inflate(R.layout.fragment_reset_password,null);
-            builder.setView(mView);
-            AlertDialog alertDialog=builder.create();
-            alertDialog.show();
-        });
+
+            updatePasswordBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    UpdatePassword u=new UpdatePassword();
+                    u.show(getSupportFragmentManager(),"ResetPassword");
+                }
+            });
+
 
         greetingTextview=findViewById(R.id.profile_greeting);
         nameTextview=findViewById(R.id.profile_name);
@@ -135,6 +142,9 @@ public class Profile extends AppCompatActivity implements NavigationView.OnNavig
 
 
 
+
+
+
     }
 
 
@@ -156,21 +166,30 @@ public class Profile extends AppCompatActivity implements NavigationView.OnNavig
         switch (item.getItemId()){
             case R.id.nav_home:
                 startActivity(new Intent(this, Home.class));
+
                 break;
             case R.id.nav_profile:
                 break;
             case R.id.nav_contact_us:
                 startActivity(new Intent(this, ContactUs.class));
+
                 break;
             case R.id.nav_rate_us:
                 startActivity(new Intent(this,RateUs.class));
+
                 break;
             case R.id.nav_feedback:
                 startActivity(new Intent(this,Feedback.class));
+
                 break;
             case R.id.nav_logout:
                 FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(this, Login.class));
+                mySession.logout();
+
+                Intent i=new Intent(this, Login.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+                startActivity(i);
                 break;
         }
         drawerLayout.closeDrawer(GravityCompat.START);
