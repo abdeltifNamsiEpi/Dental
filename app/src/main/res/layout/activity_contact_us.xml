@@ -60,7 +60,8 @@
             android:layout_margin="20dp"
             android:background="@drawable/blue_fill__rounded_color"
             android:shadowColor="@color/black"
-            android:text="Send" />
+            android:text="Send"
+            android:textColor="@color/white" />
 
         <EditText
             android:layout_width="match_parent"
@@ -81,7 +82,8 @@
             android:layout_margin="20dp"
             android:background="@drawable/blue_fill__rounded_color"
             android:shadowColor="@color/black"
-            android:text="Call" />
+            android:text="Call"
+            android:textColor="@color/white" />
 
 
     </LinearLayout>

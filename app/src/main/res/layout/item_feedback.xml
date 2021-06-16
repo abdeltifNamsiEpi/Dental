@@ -18,19 +18,20 @@
             android:id="@+id/item_uname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="casual"
+            android:layout_marginRight="5dp"
+            android:fontFamily="sans-serif"
             android:text="user Name"
-            android:layout_marginRight="2dp"
             android:textColor="@color/blue"
             android:textSize="24sp"
             android:textStyle="bold|italic" />
+
         <TextView
             android:id="@+id/item_ulastname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="casual"
-            android:text="user Name"
             android:layout_toRightOf="@id/item_uname"
+            android:fontFamily="sans-serif"
+            android:text="Last Name"
             android:textColor="@color/blue"
             android:textSize="24sp"
             android:textStyle="bold|italic" />
@@ -39,19 +40,17 @@
             android:id="@+id/item_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="230dp"
-            android:layout_toRightOf="@id/item_uname"
+            android:layout_alignParentRight="true"
             android:text="10:40"
-            android:textSize="12sp"
-            android:layout_marginLeft="200dp" />
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/item_comment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/item_date"
-            android:layout_marginBottom="5dp"
             android:layout_marginTop="20dp"
+            android:layout_marginBottom="5dp"
             android:text="comment"
             android:textSize="18sp" />
 

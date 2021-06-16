@@ -27,7 +27,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class UpdatePassword extends DialogFragment {
+public class UpdatePasswordDialog extends DialogFragment {
     Button update_password, cancel;
     EditText oldPassword, newPassword;
 

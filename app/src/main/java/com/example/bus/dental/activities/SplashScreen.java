@@ -16,7 +16,7 @@ import com.example.bus.dental.utilities.MySession;
 
 public class SplashScreen extends AppCompatActivity {
 
-    private static int SPLASH_SCREEN=0000;
+    private static int SPLASH_SCREEN=3000;
 
     Animation topAnim ,bottomAnim;
     ImageView imageView;

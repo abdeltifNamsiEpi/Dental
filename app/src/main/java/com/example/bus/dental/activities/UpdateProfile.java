@@ -2,29 +2,22 @@ package com.example.bus.dental.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Patterns;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.bus.dental.R;
 import com.example.bus.dental.utilities.ConfirmationDialog;
 import com.example.bus.dental.utilities.MySession;
-import com.example.bus.dental.utilities.UpdatePassword;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -34,16 +27,19 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class UpdateProfile extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, ConfirmationDialog.ConfirmUpdate {
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     String Name, LastName, Phone, Password;
     Button updateBtn, resetPassword;
-    EditText updateLastname, updateName, updatePhone, updatePassword, currentPassword, confirm_password;
+    EditText updateLastname, updateName, updatePhone, confirm_password;
     FirebaseAuth mAuth;
     MySession mySession;
     private FirebaseUser firebaseUser;
-    private DatabaseReference usersreference,ratingsreference,commentreference;
+    private DatabaseReference usersreference, ratingsreference, commentreference;
     private String userID;
 
 
@@ -67,17 +63,13 @@ public class UpdateProfile extends AppCompatActivity implements NavigationView.O
         firebaseUser = mAuth.getCurrentUser();
         usersreference = FirebaseDatabase.getInstance().getReference("Users");
         ratingsreference = FirebaseDatabase.getInstance().getReference("Ratings");
-
+        commentreference = FirebaseDatabase.getInstance().getReference("Comment");
         userID = firebaseUser.getUid();
-
-
         updateName = findViewById(R.id.profile_update_name);
         updateLastname = findViewById(R.id.profile_update_lastname);
         updatePhone = findViewById(R.id.profile_update_phone);
-        resetPassword=findViewById(R.id.update_password_btn);
-
+        resetPassword = findViewById(R.id.update_password_btn);
         confirm_password = findViewById(R.id.profile_confirmation_password);
-
         updateBtn = findViewById(R.id.profile_update_btn);
 
         Intent intent = getIntent();
@@ -112,76 +104,16 @@ public class UpdateProfile extends AppCompatActivity implements NavigationView.O
                 } else if (newName.equals(Name) && newLastName.equals(LastName) && newPhone.equals(Phone)) {
                     Toast.makeText(UpdateProfile.this, "It's the same data", Toast.LENGTH_LONG).show();
                 } else {
-
-
                     updateBtn.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             ConfirmationDialog x = new ConfirmationDialog();
                             x.show(getSupportFragmentManager(), "ConfirmationDialog");
-
                         }
-
-
                     });
-
-
                 }
-
             }
         });
-
-
-
-
-    }
-
-
-    private void isPasswordChanged() {
-        String newPassword = updatePassword.getText().toString();
-        String oldPassword = currentPassword.getText().toString();
-        if (oldPassword.isEmpty()) {
-            Toast.makeText(UpdateProfile.this, "Please type the old password!!", Toast.LENGTH_SHORT).show();
-        } else if (!oldPassword.isEmpty()) {
-
-            if (oldPassword.equals(Password)) {
-                if (newPassword.length() < 6) {
-                    updatePassword.setError("Password should at least have 6 characters");
-                    updatePassword.requestFocus();
-
-                } else if (!Password.equals(newPassword)) {
-                    firebaseUser.updatePassword(newPassword)
-                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()) {
-                                        usersreference.child(userID).child("password").setValue(newPassword);
-                                        Toast.makeText(UpdateProfile.this, "password is changed", Toast.LENGTH_SHORT).show();
-                                        startActivity(new Intent(UpdateProfile.this, Profile.class));
-
-                                    }
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(UpdateProfile.this, "something wrong happened", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                } else if (Password.equals(newPassword)) {
-                    Toast.makeText(UpdateProfile.this, "the password is the same", Toast.LENGTH_SHORT).show();
-                }
-                ;
-            } else if (!oldPassword.equals(Password)) {
-                if (newPassword.length() < 6) {
-                    updatePassword.setError("Password should at least have 6 characters");
-                    updatePassword.requestFocus();
-
-
-                } else {
-                    Toast.makeText(UpdateProfile.this, "type the right old password", Toast.LENGTH_SHORT).show();
-                }
-            }
-        }
 
 
     }
@@ -225,7 +157,7 @@ public class UpdateProfile extends AppCompatActivity implements NavigationView.O
             case R.id.nav_logout:
                 FirebaseAuth.getInstance().signOut();
                 mySession.logout();
-                Intent i=new Intent(this, Login.class);
+                Intent i = new Intent(this, Login.class);
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
                 startActivity(i);
@@ -245,13 +177,34 @@ public class UpdateProfile extends AppCompatActivity implements NavigationView.O
         if (!Name.equals(newName)) {
             usersreference.child(userID).child("name").setValue(updateName.getText().toString());
             ratingsreference.child(userID).child("uName").setValue(updateName.getText().toString());
-
-
+            commentreference.child(userID).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for (DataSnapshot snap : snapshot.getChildren()) {
+                        Log.e("aa", snap.toString());
+                        commentreference.child(userID).child(snap.getKey()).child("uname").setValue(updateName.getText().toString());
+                    }
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                }
+            });
         }
         if (!LastName.equals(newLastName)) {
             usersreference.child(userID).child("lastName").setValue(updateLastname.getText().toString());
-            ratingsreference.child(userID).child("uLastName").setValue(updateName.getText().toString());
-
+            ratingsreference.child(userID).child("uLastName").setValue(updateLastname.getText().toString());
+            commentreference.child(userID).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for (DataSnapshot snap : snapshot.getChildren()) {
+                        Log.e("aa", snap.toString());
+                        commentreference.child(userID).child(snap.getKey()).child("ulastname").setValue(updateName.getText().toString());
+                    }
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                }
+            });
 
         }
         if (!Phone.equals(newPhone)) {

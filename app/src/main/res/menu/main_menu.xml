@@ -3,29 +3,36 @@
 
 
     <group android:checkableBehavior="single">
-        <item android:id="@+id/nav_home"
-            android:title="Home"
-            android:icon="@drawable/ic_baseline_home_24"/>
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_baseline_home_24"
+            android:title="Home" />
 
-        <item android:id="@+id/nav_profile"
-            android:title="Profile"
-            android:icon="@drawable/ic_baseline_person_24"/>
+        <item
+            android:id="@+id/nav_profile"
+            android:icon="@drawable/ic_baseline_person_24"
+            android:title="Profile" />
 
-        <item android:id="@+id/nav_contact_us"
-            android:title="Contact Us"
-            android:icon="@drawable/ic_baseline_contact_phone_24"/>
+        <item
+            android:id="@+id/nav_contact_us"
+            android:icon="@drawable/ic_baseline_contact_phone_24"
+            android:title="Contact Us" />
 
-        <item android:id="@+id/nav_rate_us"
-            android:title="Rate Us"
-            android:icon="@drawable/ic_baseline_star_rate_24"/>
+        <item
+            android:id="@+id/nav_feedback"
+            android:icon="@drawable/ic_baseline_feedback_24"
+            android:title="Feedback" />
 
-        <item android:id="@+id/nav_feedback"
-            android:title="Feedback"
-            android:icon="@drawable/ic_baseline_star_rate_24"/>
+        <item
+            android:id="@+id/nav_rate_us"
+            android:icon="@drawable/ic_baseline_star_rate_24"
+            android:title="Rate Us" />
 
-        <item android:id="@+id/nav_logout"
-            android:title="Logout"
-            android:icon="@drawable/ic_baseline_logout_24"/>
+
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/ic_baseline_logout_24"
+            android:title="Logout" />
     </group>
 
 

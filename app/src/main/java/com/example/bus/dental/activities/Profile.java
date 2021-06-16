@@ -3,7 +3,6 @@ package com.example.bus.dental.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -19,7 +18,7 @@ import android.widget.Toast;
 import com.example.bus.dental.R;
 import com.example.bus.dental.models.User;
 import com.example.bus.dental.utilities.MySession;
-import com.example.bus.dental.utilities.UpdatePassword;
+import com.example.bus.dental.utilities.UpdatePasswordDialog;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -65,7 +64,7 @@ public class Profile extends AppCompatActivity implements NavigationView.OnNavig
             updatePasswordBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    UpdatePassword u=new UpdatePassword();
+                    UpdatePasswordDialog u=new UpdatePasswordDialog();
                     u.show(getSupportFragmentManager(),"ResetPassword");
                 }
             });

@@ -38,6 +38,7 @@ public class RateUs extends AppCompatActivity implements NavigationView.OnNaviga
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     MySession mySession;
+
     DatabaseReference userReference;
     float defaultValue;
     FirebaseAuth mAuth;
@@ -64,29 +65,16 @@ public class RateUs extends AppCompatActivity implements NavigationView.OnNaviga
         ratingBar = findViewById(R.id.rating_bar);
         btnSubmit = findViewById(R.id.rating_btn);
 
-        Log.e("aaa", x);
-        DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference("Ratings");
+
+        DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference("Ratings").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
         databaseReference1.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot snap : snapshot.getChildren()) {
+                Log.e("aaa",snapshot.toString());
+                Rating rating = snapshot.getValue(Rating.class);
 
-
-                    Rating rating = snap.getValue(Rating.class);
-
-
-                    if (rating.getuId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
-                        defaultValue = Float.parseFloat(rating.getRate());
-                        ratingBar.setRating(defaultValue);
-                        break;
-                    } else {
-                        ratingBar.setRating(0);
-                    }
-
-                    /*Rating rating=snap.getValue(Rating.class);*/
-
-                }
-
+                defaultValue = Float.parseFloat(rating.getRate());
+                ratingBar.setRating(defaultValue);
             }
 
             @Override
@@ -94,7 +82,6 @@ public class RateUs extends AppCompatActivity implements NavigationView.OnNaviga
 
             }
         });
-
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override

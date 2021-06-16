@@ -22,6 +22,7 @@ import com.example.bus.dental.adapters.CommentAdapter;
 import com.example.bus.dental.interfaces.ItemClickInterface;
 import com.example.bus.dental.models.Comment;
 import com.example.bus.dental.models.User;
+import com.example.bus.dental.utilities.EditFeedbackDialog;
 import com.example.bus.dental.utilities.MySession;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
@@ -36,7 +37,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Feedback extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, ItemClickInterface {
+public class Feedback extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, ItemClickInterface, EditFeedbackDialog.EditFeedback {
     EditText editTextFeedback;
     ImageView btnAddFeedback;
     FirebaseAuth firebaseAuth;
@@ -181,8 +182,6 @@ public class Feedback extends AppCompatActivity implements NavigationView.OnNavi
 
     private void initRvComment() {
 
-
-
         DatabaseReference commentRef=firebaseDatabase.getReference(COMMENT);
         commentRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -190,6 +189,7 @@ public class Feedback extends AppCompatActivity implements NavigationView.OnNavi
                 listComment.clear();
                 for(DataSnapshot snap:snapshot.getChildren()){
                     Comment comment= snap.getValue(Comment.class);
+                    comment.setKey(snap.getKey());
                     listComment.add(comment);
                 }
                 commentAdapter.notifyDataSetChanged();
@@ -209,7 +209,12 @@ public class Feedback extends AppCompatActivity implements NavigationView.OnNavi
     public void onItemClick(int position) {
 
                 if(listComment.get(position).getUid().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
-                    Toast.makeText(this,"aaa",Toast.LENGTH_LONG).show();
+                    Bundle b=new Bundle();
+                    b.putString("feedback",listComment.get(position).getComment());
+                    b.putString("position", String.valueOf(position));
+                    EditFeedbackDialog editFeedbackDialog=new EditFeedbackDialog();
+                    editFeedbackDialog.setArguments(b);
+                    editFeedbackDialog.show(getSupportFragmentManager(),"Feedback Dailog");
                 }
                 else {
 
@@ -218,4 +223,15 @@ public class Feedback extends AppCompatActivity implements NavigationView.OnNavi
 
     }
 
+    @Override
+    public void edit(String feedback, int position) {
+
+        commentReference.child(listComment.get(position).getKey()).child("comment").setValue(feedback);
+
+    }
+
+    @Override
+    public void delete(Comment comment, int position) {
+        commentReference.child(listComment.get(position).getKey()).removeValue();
+    }
 }

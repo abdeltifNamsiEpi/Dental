@@ -3,7 +3,8 @@ package com.example.bus.dental.models;
 import com.google.firebase.database.ServerValue;
 
 public class Comment {
-    private String comment,uname,ulastname,uid;
+    private String  key;
+    private String  comment,uname,ulastname,uid;
     private Object timestamp;
 
 
@@ -58,5 +59,13 @@ public class Comment {
 
     public void setUid(String uid) {
         this.uid = uid;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 }
