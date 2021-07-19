@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.bus.dental.R;
+import com.example.bus.dental.models.Comment;
 import com.example.bus.dental.utilities.ConfirmationDialog;
 import com.example.bus.dental.utilities.MySession;
 import com.google.android.material.navigation.NavigationView;
@@ -41,6 +42,7 @@ public class UpdateProfile extends AppCompatActivity implements NavigationView.O
     private FirebaseUser firebaseUser;
     private DatabaseReference usersreference, ratingsreference, commentreference;
     private String userID;
+
 
 
     @Override
@@ -170,19 +172,28 @@ public class UpdateProfile extends AppCompatActivity implements NavigationView.O
 
     @Override
     public void Update(String Name, String LastName, String Phone) {
-        String newName = updateName.getText().toString();
-        String newLastName = updateLastname.getText().toString();
-        String newPhone = updatePhone.getText().toString();
+        String newName = updateName.getText().toString().trim();
+        String newLastName = updateLastname.getText().toString().trim();
+        String newPhone = updatePhone.getText().toString().trim();
 
         if (!Name.equals(newName)) {
             usersreference.child(userID).child("name").setValue(updateName.getText().toString());
             ratingsreference.child(userID).child("uName").setValue(updateName.getText().toString());
-            commentreference.child(userID).addValueEventListener(new ValueEventListener() {
+            commentreference.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     for (DataSnapshot snap : snapshot.getChildren()) {
-                        Log.e("aa", snap.toString());
-                        commentreference.child(userID).child(snap.getKey()).child("uname").setValue(updateName.getText().toString());
+                        Comment c=snap.getValue(Comment.class);
+                        c.setKey(snap.getKey());
+
+                        if (c.getUid().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+
+                            commentreference.child(c.getKey()).child("uname").setValue(updateName.getText().toString());
+                        }else {
+
+
+
+                        }
                     }
                 }
                 @Override
@@ -193,12 +204,22 @@ public class UpdateProfile extends AppCompatActivity implements NavigationView.O
         if (!LastName.equals(newLastName)) {
             usersreference.child(userID).child("lastName").setValue(updateLastname.getText().toString());
             ratingsreference.child(userID).child("uLastName").setValue(updateLastname.getText().toString());
-            commentreference.child(userID).addValueEventListener(new ValueEventListener() {
+
+            commentreference.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     for (DataSnapshot snap : snapshot.getChildren()) {
-                        Log.e("aa", snap.toString());
-                        commentreference.child(userID).child(snap.getKey()).child("ulastname").setValue(updateName.getText().toString());
+                        Comment c=snap.getValue(Comment.class);
+                        c.setKey(snap.getKey());
+
+                        if (c.getUid().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+
+                            commentreference.child(c.getKey()).child("ulastname").setValue(updateLastname.getText().toString());
+                        }else {
+
+
+
+                        }
                     }
                 }
                 @Override

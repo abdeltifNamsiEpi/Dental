@@ -65,16 +65,30 @@ public class RateUs extends AppCompatActivity implements NavigationView.OnNaviga
         ratingBar = findViewById(R.id.rating_bar);
         btnSubmit = findViewById(R.id.rating_btn);
 
-
-        DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference("Ratings").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-        databaseReference1.addValueEventListener(new ValueEventListener() {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Ratings");
+        databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Log.e("aaa",snapshot.toString());
-                Rating rating = snapshot.getValue(Rating.class);
+                for (DataSnapshot snap:snapshot.getChildren()){
+                    if (snap.getKey().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                        DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference("Ratings").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                        databaseReference1.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                Rating rating = snapshot.getValue(Rating.class);
+                                defaultValue = Float.parseFloat(rating.getRate());
+                                ratingBar.setRating(defaultValue);
+                            }
 
-                defaultValue = Float.parseFloat(rating.getRate());
-                ratingBar.setRating(defaultValue);
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+                    }else {
+                        ratingBar.setRating(0);
+                    }
+                }
             }
 
             @Override
@@ -82,6 +96,10 @@ public class RateUs extends AppCompatActivity implements NavigationView.OnNaviga
 
             }
         });
+
+
+
+
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
